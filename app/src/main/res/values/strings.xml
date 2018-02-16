@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bible Head</string>
+    <string name="add_verse">Add Verse</string>
+    <string name="learn">Learn</string>
+    <string name="review">Review</string>
+    <string name="save_verse">Save Verse</string>
+    <string name="verse_added">Verse Added</string>
+</resources>
