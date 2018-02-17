@@ -9,10 +9,20 @@ public class Verse {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    private String text;
+    public String text;
+    public String bibleBook;
+    public int chapterStart;
+    public int chapterEnd;
+    public int verseStart;
+    public int verseEnd;
 
-    Verse(String text){
+    Verse(String text, String bibleBook, int chapterStart, int chapterEnd, int verseStart, int verseEnd){
         this.text = text;
+        this.bibleBook = bibleBook;
+        this.chapterStart = chapterStart;
+        this.chapterEnd = chapterEnd;
+        this.verseStart = verseStart;
+        this.verseEnd = verseEnd;
     }
 
 //    Verse(int id, String text){
@@ -20,7 +30,4 @@ public class Verse {
 //        this.text = text;
 //    }
 
-    public String getText(){
-        return text;
-    }
 }

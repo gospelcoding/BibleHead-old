@@ -1,21 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    >
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <EditText
         android:id="@+id/verse_text"
-        android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bible_book"
+        android:textSize="25sp"
+        android:hint="@string/verse_text_hint"/>
 
-    <Button
+    <Spinner
+        android:id="@+id/bible_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/verse_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chapter_start"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/chapter_start"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:maxLength="3"
+        android:inputType="number"
+        android:hint="1"
+        android:textAlignment="viewEnd"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/colon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/chapter_start"
+        app:layout_constraintBaseline_toBaselineOf="@id/chapter_start"
+        android:maxLength="3"
+        android:inputType="number"
+        android:text=":"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/verse_start"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/colon1"
+        app:layout_constraintBaseline_toBaselineOf="@id/chapter_start"
+        android:maxLength="3"
+        android:inputType="number"
+        android:hint="1"
+        android:textAlignment="viewEnd"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/dash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/verse_start"
+        app:layout_constraintBaseline_toBaselineOf="@id/chapter_start"
+        android:maxLength="3"
+        android:inputType="number"
+        android:text=" - "
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/chapter_end"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/dash"
+        app:layout_constraintBaseline_toBaselineOf="@id/chapter_start"
+        android:maxLength="3"
+        android:inputType="number"
+        android:hint="1"
+        android:textAlignment="viewEnd"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/colon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/chapter_end"
+        app:layout_constraintBaseline_toBaselineOf="@id/chapter_start"
+        android:maxLength="3"
+        android:inputType="number"
+        android:text=":"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/verse_end"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/colon2"
+        app:layout_constraintBaseline_toBaselineOf="@id/chapter_start"
+        android:maxLength="3"
+        android:inputType="number"
+        android:hint="2"
+        android:textAlignment="viewEnd"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/save_verse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:onClick="clickSaveVerse"
         android:padding="20dp"
         android:text="@string/save_verse"
-        android:onClick="clickSaveVerse"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/verse_text"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
