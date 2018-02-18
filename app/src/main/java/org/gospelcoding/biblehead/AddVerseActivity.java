@@ -18,6 +18,8 @@ public class AddVerseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViews();
+
+        //TODO This ain't right, reserach correct method
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "biblehead").build();
     }
 

@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
     }
 
     public void clickReview(View v){
-
+        Intent intent = new Intent(this, ReviewActivity.class);
+        startActivity(intent);
     }
 }
