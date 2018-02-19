@@ -6,6 +6,7 @@
     <string name="save_verse">Save Verse</string>
     <string name="verse_added">Verse Added</string>
     <string name="verse_text_hint">Paste the text of the verse here.</string>
+    <string name="x_of_y">%1$d of %2$d</string>
 
     <string-array name="bible_books">
         <item>Genesis</item>

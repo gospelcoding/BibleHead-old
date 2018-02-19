@@ -5,16 +5,27 @@ import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReviewActivity extends Activity {
+
+    // One or more word characters
+    // zero or more anything, non-greedy
+    // The specified delimeter group
+    // Zero or more non-word characters, greedy
+    private static final Pattern NEXT_WORD = Pattern.compile("\\w+.*?[\\s]\\W*");
+    private static final Pattern NEXT_PHRASE = Pattern.compile("\\w+.*?[,;.?!\n]\\W*");
 
     private AppDatabase db;
     private List<Verse> reviewVerses;
     private int currentVerseIndex;
     private TextView verseTextView;
+    private String verseTextRemainder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +60,9 @@ public class ReviewActivity extends Activity {
         }
 
         Verse verse = reviewVerses.get(currentVerseIndex);
+        verseTextRemainder = verse.text;
         setTextView(R.id.verse_reference, verse.getReference());
+        setTextView(R.id.verse_number, getString(R.string.x_of_y, currentVerseIndex+1, reviewVerses.size()));
         setTextView(R.id.verse_text, "");
         showHideButtons(false);
     }
@@ -59,8 +72,8 @@ public class ReviewActivity extends Activity {
     }
 
     private void showHideButtons(boolean reviewComplete){
-        int reviewingBtnVisibility = reviewComplete ? View.GONE : View.VISIBLE;
-        int reviewCompleteBtnVisibility = reviewComplete ? View.VISIBLE : View.GONE;
+        int reviewingBtnVisibility = reviewComplete ? View.INVISIBLE : View.VISIBLE;
+        int reviewCompleteBtnVisibility = reviewComplete ? View.VISIBLE : View.INVISIBLE;
 
         findViewById(R.id.review_failure).setVisibility(reviewCompleteBtnVisibility);
         findViewById(R.id.review_success).setVisibility(reviewCompleteBtnVisibility);
@@ -75,49 +88,44 @@ public class ReviewActivity extends Activity {
     }
 
     public void clickShowWord(View v){
-        appendToVerseText(" \t\n");
+        appendToVerseText(NEXT_WORD);
     }
 
     public void clickShowPhrase(View v) {
-        appendToVerseText(".,;?!\n");
+        appendToVerseText(NEXT_PHRASE);
     }
 
-    private void appendToVerseText(String delimiter){
-        String remainder = getRemainderText();
-        String append = getUpToAndIncluding(remainder, delimiter);
+    private void appendToVerseText(Pattern pattern){
+        Matcher matcher = pattern.matcher(verseTextRemainder);
+        String append;
+        if(matcher.find()){
+            append = verseTextRemainder.substring(0, matcher.end());
+            verseTextRemainder = verseTextRemainder.substring(matcher.end());
+        }
+        else {
+          append = verseTextRemainder;
+          verseTextRemainder = "";
+        }
+
         verseTextView.append(append);
-        if(append.length() == remainder.length())
+        scrollToBottom();
+        if(verseTextRemainder.length() == 0)
             completeReview();
     }
 
+    private void scrollToBottom(){
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.verse_text_scroll);
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+    }
+
     public void clickShowAll(View v){
-        Verse verse = reviewVerses.get(currentVerseIndex);
-        setTextView(R.id.verse_text, verse.text);
+        verseTextView.append(verseTextRemainder);
         completeReview();
-    }
-
-    private String getUpToAndIncluding(String baseText, String delimiters){
-        int i=0;
-
-        // If string starts with delimiter, pass it
-        while(i<baseText.length() && delimiters.contains(baseText.substring(i, i+1)))
-            ++i;
-
-        // Get everything that's not the delimiter
-        while(i<baseText.length() && !delimiters.contains(baseText.substring(i, i+1)))
-            ++i;
-
-        //Get the entire ending delimiter
-        while(i<baseText.length() && delimiters.contains(baseText.substring(i, i+1)))
-            ++i;
-
-        return baseText.substring(0, i);
-    }
-
-    private String getRemainderText(){
-        int startIndex = verseTextView.getText().length();
-        String fullText = reviewVerses.get(currentVerseIndex).text;
-        return fullText.substring(startIndex);
     }
 
     public void clickReviewFailure(View v){

@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/verse_reference"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,15 +17,33 @@
         android:textColor="#000000"/>
 
     <TextView
-        android:id="@+id/verse_text"
-        android:layout_width="match_parent"
+        android:id="@+id/verse_number"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="1 of 5"
+        android:textSize="30sp"
+        android:textColor="#000000"/>
+
+    <ScrollView
+        android:id="@+id/verse_text_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/verse_reference"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:text="In the beginning God created the heavens and the earth."
-        android:textSize="25sp"
-        android:textColor="#000000" />
+        app:layout_constraintBottom_toTopOf="@id/show_word">
+
+        <TextView
+            android:id="@+id/verse_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="In the beginning God created the heavens and the earth."
+            android:textSize="25sp"
+            android:textColor="#000000" />
+
+    </ScrollView>
 
     <Button
         android:id="@+id/show_word"
