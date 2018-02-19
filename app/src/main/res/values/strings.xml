@@ -3,8 +3,13 @@
     <string name="add_verse">Add Verse</string>
     <string name="learn">Learn</string>
     <string name="review">Review</string>
+    <string name="multiverse">Longer than 1 verse</string>
     <string name="save_verse">Save Verse</string>
-    <string name="verse_added">Verse Added</string>
+    <string name="verse_text_not_blank">Verse text can\'t be blank.</string>
+    <string name="end_verse_after_start_verse">End verse must come after start verse.</string>
+    <string name="valid_chapter_numbers">Chapter numbers must be between 1 and 150.</string>
+    <string name="valid_verse_numbers">Verse numbers must be between 1 and 200.</string>
+    <string name="verse_added">%1$s Added</string>
     <string name="verse_text_hint">Paste the text of the verse here.</string>
     <string name="x_of_y">%1$d of %2$d</string>
 
