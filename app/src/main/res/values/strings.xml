@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Bible Head</string>
-    <string name="add_verse">Add Verse</string>
+
+    <!-- Verse List Activity -->
     <string name="learn">Learn</string>
     <string name="review">Review</string>
+
+    <!-- Add Verse Activity -->
+    <string name="add_verse">Add Verse</string>
     <string name="multiverse">Longer than 1 verse</string>
     <string name="save_verse">Save Verse</string>
     <string name="verse_text_not_blank">Verse text can\'t be blank.</string>
@@ -11,6 +15,8 @@
     <string name="valid_verse_numbers">Verse numbers must be between 1 and 200.</string>
     <string name="verse_added">%1$s Added</string>
     <string name="verse_text_hint">Paste the text of the verse here.</string>
+
+    <!-- Review Activity -->
     <string name="x_of_y">%1$d of %2$d</string>
 
     <string-array name="bible_books">
