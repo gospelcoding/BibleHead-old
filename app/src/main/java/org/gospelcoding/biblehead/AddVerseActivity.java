@@ -2,6 +2,7 @@ package org.gospelcoding.biblehead;
 
 import android.app.Activity;
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddVerseActivity extends Activity {
+
+    public static final String VERSE_ID_CODE = "org.gospelcoding.biblehead.verse_id";
 
     private AppDatabase db;
 
@@ -58,7 +61,6 @@ public class AddVerseActivity extends Activity {
         Verse verse = buildVerse();
         if (verse.isValid()) {
             new SaveVerseTask().execute(verse);
-            finish();
         }
         else {
             String message = "";
@@ -103,15 +105,18 @@ public class AddVerseActivity extends Activity {
         }
     }
 
-    private class SaveVerseTask extends AsyncTask<Verse, Void, Verse> {
-        protected Verse doInBackground(Verse... verses){
+    private class SaveVerseTask extends AsyncTask<Verse, Void, Integer> {
+        protected Integer doInBackground(Verse... verses){
             Verse verse = verses[0];
-            db.verseDao().insert(verse);
-            return verse;
+            return (int) db.verseDao().insert(verse);
         }
 
-        protected void onPostExecute(Verse verse){
-            Toast.makeText(getApplicationContext(), getString(R.string.verse_added, verse.getReference()), Toast.LENGTH_SHORT).show();
+        protected void onPostExecute(Integer verseId){
+            //Toast.makeText(getApplicationContext(), getString(R.string.verse_added, verse.getReference()), Toast.LENGTH_SHORT).show();
+            Intent result = new Intent();
+            result.putExtra(VERSE_ID_CODE, verseId);
+            setResult(RESULT_OK, result);
+            finish();
         }
     }
 }

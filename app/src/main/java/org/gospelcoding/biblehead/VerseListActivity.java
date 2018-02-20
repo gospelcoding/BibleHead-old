@@ -4,7 +4,6 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +16,8 @@ import java.util.List;
 
 public class VerseListActivity extends AppCompatActivity {
 
+    public static final int ADD_VERSE_CODE = 1;
+
     AppDatabase db;
     VerseArrayAdapter verseArrayAdapter;
 
@@ -26,15 +27,6 @@ public class VerseListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verse_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addVerseActivityIntent = new Intent(VerseListActivity.this, AddVerseActivity.class);
-                startActivity(addVerseActivityIntent);
-            }
-        });
 
         //TODO This ain't right, reserach correct method
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "biblehead").build();
@@ -77,4 +69,34 @@ public class VerseListActivity extends AppCompatActivity {
         }
     }
 
+    public void clickAddVerse(View v){
+        Intent intent = new Intent(this, AddVerseActivity.class);
+        startActivityForResult(intent, ADD_VERSE_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == RESULT_OK) {
+            int newVerseId = data.getIntExtra(AddVerseActivity.VERSE_ID_CODE, -1);
+            new AddVerseTask().execute(newVerseId);
+        }
+    }
+
+    private class AddVerseTask extends AsyncTask<Integer, Void, List<Verse>>{
+        @Override
+        public List<Verse> doInBackground(Integer... ids){
+            int[] verse_ids = new int[ids.length];
+            for(int i=0; i<ids.length; ++i)
+                verse_ids[i] = ids[i];
+
+            return db.verseDao().getById(verse_ids);
+        }
+
+        @Override
+        public void onPostExecute(List<Verse> newVerses){
+            for(Verse v : newVerses)
+                verseArrayAdapter.insert(v, 0);
+            verseArrayAdapter.notifyDataSetChanged();
+        }
+    }
 }

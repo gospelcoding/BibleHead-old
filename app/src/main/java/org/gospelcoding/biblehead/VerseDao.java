@@ -9,6 +9,9 @@ import java.util.List;
 
 @Dao
 public interface VerseDao {
+    @Query("SELECT * FROM verse WHERE id IN (:ids)")
+    List<Verse> getById(int... ids);
+
     @Query("SELECT * From verse")
     List<Verse> getAll();
 
@@ -16,7 +19,7 @@ public interface VerseDao {
     List<Verse> getVersesForReview(int numberOfVerses);
 
     @Insert
-    void insert(Verse verse);
+    long insert(Verse verse);
 
     @Update
     void update(Verse verse);
