@@ -1,7 +1,6 @@
 package org.gospelcoding.biblehead;
 
 import android.app.Activity;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,25 +11,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class AddVerseActivity extends Activity {
 
     public static final String VERSE_ID_CODE = "org.gospelcoding.biblehead.verse_id";
-
-    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViews();
-
-        //TODO This ain't right, reserach correct method
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "biblehead").build();
     }
 
     private void setupViews(){
         setContentView(R.layout.activity_add_verse);
         Spinner bookSpinner = findViewById(R.id.bible_book);
-        ArrayAdapter<CharSequence> bookAdapter = ArrayAdapter.createFromResource(this, R.array.bible_books, R.layout.book_spinner_item);
+        List<BibleBook> bibleBooks = BibleBook.getBibleBooks(this);
+        ArrayAdapter<BibleBook> bookAdapter = new ArrayAdapter<BibleBook>(this, R.layout.book_spinner_item, bibleBooks);
         bookAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bookSpinner.setAdapter(bookAdapter);
     }
@@ -75,16 +72,18 @@ public class AddVerseActivity extends Activity {
 
     private Verse buildVerse(){
         String text = ((EditText) findViewById(R.id.verse_text)).getText().toString();
-        String bibleBook = ((Spinner) findViewById(R.id.bible_book)).getSelectedItem().toString();
+        BibleBook book = (BibleBook) ((Spinner) findViewById(R.id.bible_book)).getSelectedItem();
+        String bibleBook = book.getName();
+        int bibleBookNumber = book.getUsfmNumber();
         int chapterStart = numberFromEditText(R.id.chapter_start);
         int verseStart = numberFromEditText(R.id.verse_start);
         if (((CheckBox) findViewById(R.id.multiverse_check)).isChecked()) {
             int chapterEnd = numberFromEditText(R.id.chapter_end);
             int verseEnd = numberFromEditText(R.id.verse_end);
-            return new Verse(text, bibleBook, chapterStart, chapterEnd, verseStart, verseEnd);
+            return new Verse(text, bibleBook, bibleBookNumber, chapterStart, chapterEnd, verseStart, verseEnd);
         }
         else {
-            return new Verse(text, bibleBook, chapterStart, verseStart);
+            return new Verse(text, bibleBook, bibleBookNumber, chapterStart, verseStart);
         }
     }
 
@@ -108,11 +107,10 @@ public class AddVerseActivity extends Activity {
     private class SaveVerseTask extends AsyncTask<Verse, Void, Integer> {
         protected Integer doInBackground(Verse... verses){
             Verse verse = verses[0];
-            return (int) db.verseDao().insert(verse);
+            return (int) AppDatabase.getDatabase(AddVerseActivity.this).verseDao().insert(verse);
         }
 
         protected void onPostExecute(Integer verseId){
-            //Toast.makeText(getApplicationContext(), getString(R.string.verse_added, verse.getReference()), Toast.LENGTH_SHORT).show();
             Intent result = new Intent();
             result.putExtra(VERSE_ID_CODE, verseId);
             setResult(RESULT_OK, result);

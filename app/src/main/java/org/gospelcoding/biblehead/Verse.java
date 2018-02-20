@@ -18,6 +18,7 @@ public class Verse {
 
     // Reference
     public String bibleBook;
+    public int bibleBookNumber;
     public int chapterStart;
     public int chapterEnd;
     public int verseStart;
@@ -31,13 +32,14 @@ public class Verse {
     public List<Integer> validationErrors;
 
     @Ignore
-    Verse(String text, String bibleBook, int chapterStart, int verseStart){
-        this(text, bibleBook, chapterStart, chapterStart, verseStart, verseStart);
+    Verse(String text, String bibleBook, int bibleBookNumber, int chapterStart, int verseStart){
+        this(text, bibleBook, bibleBookNumber, chapterStart, chapterStart, verseStart, verseStart);
     }
 
-    Verse(String text, String bibleBook, int chapterStart, int chapterEnd, int verseStart, int verseEnd){
+    Verse(String text, String bibleBook, int bibleBookNumber, int chapterStart, int chapterEnd, int verseStart, int verseEnd){
         this.text = text;
         this.bibleBook = bibleBook;
+        this.bibleBookNumber = bibleBookNumber;
         this.chapterStart = chapterStart;
         this.chapterEnd = chapterEnd;
         this.verseStart = verseStart;
@@ -45,6 +47,17 @@ public class Verse {
 
         this.lastReview = new Date();
         this.successfulReviews = 0;
+    }
+
+    public boolean comesAfter(Verse otherVerse){
+        if (bibleBookNumber != otherVerse.bibleBookNumber)
+            return bibleBookNumber > otherVerse.bibleBookNumber;
+
+        if (chapterStart != otherVerse.chapterStart)
+            return chapterStart > otherVerse.chapterStart;
+
+        return verseStart > otherVerse.verseStart;
+
     }
 
     // Does not validate that the book contains the chapters/verses indicated

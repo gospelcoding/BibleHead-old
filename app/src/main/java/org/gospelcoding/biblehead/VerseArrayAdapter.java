@@ -13,22 +13,27 @@ package org.gospelcoding.biblehead;
 public class VerseArrayAdapter extends ArrayAdapter<Verse> {
 
     Context context;
-    List<Verse> verses;
 
     public VerseArrayAdapter(Context context, List<Verse> verses){
         super(context, -1, verses);
 
         this.context = context;
-        this.verses = verses;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        Verse verse = verses.get(position);
+        Verse verse = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View verseView = inflater.inflate(R.layout.verse_list_item, parent, false);
         ((TextView) verseView.findViewById(R.id.verse_reference)).setText(verse.getReference());
 
         return verseView;
+    }
+
+    public void insert(Verse verse){
+        int i = 0;
+        while (i<getCount() && verse.comesAfter(getItem(i)))
+            ++i;
+        insert(verse, i);
     }
 }

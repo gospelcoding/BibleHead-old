@@ -1,7 +1,6 @@
 package org.gospelcoding.biblehead;
 
 import android.app.Activity;
-import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +20,6 @@ public class ReviewActivity extends Activity {
     private static final Pattern NEXT_WORD = Pattern.compile("\\w+.*?[\\s]\\W*");
     private static final Pattern NEXT_PHRASE = Pattern.compile("\\w+.*?[,;.?!\n]\\W*");
 
-    private AppDatabase db;
     private List<Verse> reviewVerses;
     private int currentVerseIndex;
     private TextView verseTextView;
@@ -33,16 +31,13 @@ public class ReviewActivity extends Activity {
         setContentView(R.layout.activity_review);
         verseTextView = (TextView) findViewById(R.id.verse_text);
 
-        //TODO This ain't right, reserach correct method
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "biblehead").build();
-
         new ReviewVerseLoader().execute();
     }
 
     private class ReviewVerseLoader extends AsyncTask<Void, Void, List<Verse>>{
         @Override
         public List<Verse> doInBackground(Void... v){
-            return db.verseDao().getVersesForReview(5);
+            return AppDatabase.getDatabase(ReviewActivity.this).verseDao().getVersesForReview(5);
         }
 
         @Override
@@ -151,7 +146,7 @@ public class ReviewActivity extends Activity {
         @Override
         public Void doInBackground(Verse... verses){
             for(Verse v : verses){
-                db.verseDao().update(v);
+                AppDatabase.getDatabase(ReviewActivity.this).verseDao().update(v);
             }
             return null;
         }
