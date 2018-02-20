@@ -52,9 +52,6 @@ public class Verse {
     }
 
     public boolean comesAfter(Verse otherVerse){
-        if (learned != otherVerse.learned)
-            return learned;
-
         if (bibleBookNumber != otherVerse.bibleBookNumber)
             return bibleBookNumber > otherVerse.bibleBookNumber;
 

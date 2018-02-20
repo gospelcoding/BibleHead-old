@@ -12,7 +12,7 @@ public interface VerseDao {
     @Query("SELECT * FROM verse WHERE id IN (:ids)")
     List<Verse> getById(int... ids);
 
-    @Query("SELECT * From verse ORDER BY learned, bibleBookNumber, chapterStart, verseStart")
+    @Query("SELECT * From verse ORDER BY bibleBookNumber, chapterStart, verseStart")
     List<Verse> getAll();
 
     @Query("SELECT * FROM verse WHERE learned ORDER BY (3*(julianday('now') - julianday(lastReview)) - successfulReviews) DESC LIMIT :numberOfVerses")
