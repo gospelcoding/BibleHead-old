@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Bible Head</string>
+    <string name="notification_title">Daily Review</string>
+    <string name="notification_text">Review your memory verses</string>
 
     <!-- Verse List Activity -->
     <string name="learn">Learn</string>
     <string name="review">Review</string>
+    <string name="channel_description">Daily Verse Review Reminder</string>
 
     <!-- Add Verse Activity -->
     <string name="add_verse">Add Verse</string>

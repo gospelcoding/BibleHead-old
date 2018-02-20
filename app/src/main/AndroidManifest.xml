@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.gospelcoding.biblehead">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".AddVerseActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".ReviewActivity" />
         <activity
             android:name=".VerseListActivity"
             android:label="@string/app_name"
@@ -23,6 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddVerseActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".ReviewActivity"
+            android:parentActivityName=".VerseListActivity">
+        </activity>
+
+
+        <receiver android:name="org.gospelcoding.biblehead.ReviewNotifier" android:exported="false">
+            <intent-filter>
+                <action android:name="org.gospelcoding.biblehead.MakeNotification"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="org.gospelcoding.biblehead.BootReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

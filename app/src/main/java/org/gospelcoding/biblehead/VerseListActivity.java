@@ -1,8 +1,12 @@
 package org.gospelcoding.biblehead;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +24,7 @@ public class VerseListActivity extends AppCompatActivity {
     public static final int ADD_VERSE_CODE = 1;
     public static final String SHARED_PREFS_TAG = "org.gospelcoding.biblehead.shared_prefs";
     public static final String VERSION = "version";
+    public static final String NOTIFICATION_CHANNEL = "daily_review_reminder";
 
     VerseArrayAdapter verseArrayAdapter;
 
@@ -33,6 +38,9 @@ public class VerseListActivity extends AppCompatActivity {
         checkIfUpdateAndProcess();
 
         new LoadVersesTask().execute();
+
+        setupNotificationChannel();
+        AlarmManager.setAlarm(getApplicationContext());
     }
 
     @Override
@@ -48,6 +56,7 @@ public class VerseListActivity extends AppCompatActivity {
             case R.id.review_verses:
                 Intent intent = new Intent(this, ReviewActivity.class);
                 startActivity(intent);
+                break;
             default:
                 Log.e("BHUI", "Unexpected menuItem in VerseListActivity.onOptionsItemSelected");
 
@@ -110,6 +119,21 @@ public class VerseListActivity extends AppCompatActivity {
             verseListView.setAdapter(verseArrayAdapter);
         }
     }
+
+    private void setupNotificationChannel(){
+        if (Build.VERSION.SDK_INT < 26)
+            return;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        String id = NOTIFICATION_CHANNEL;
+        CharSequence name = getString(R.string.app_name);
+        String description = getString(R.string.channel_description);
+        NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW);
+        mChannel.setDescription(description);
+        mChannel.enableLights(true);
+        mChannel.setLightColor(Color.WHITE);
+        mNotificationManager.createNotificationChannel(mChannel);
+    }
+
 
     public void clickAddVerse(View v){
         Intent intent = new Intent(this, AddVerseActivity.class);
