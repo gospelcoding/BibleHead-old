@@ -6,6 +6,7 @@ package org.gospelcoding.biblehead;
         import android.view.ViewGroup;
 
         import android.widget.ArrayAdapter;
+        import android.widget.Button;
         import android.widget.TextView;
 
         import java.util.List;
@@ -27,6 +28,12 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         View verseView = inflater.inflate(R.layout.verse_list_item, parent, false);
         ((TextView) verseView.findViewById(R.id.verse_reference)).setText(verse.getReference());
 
+        Button learned = ((Button) verseView.findViewById(R.id.learn_verse));
+        if (verse.learned)
+            learned.setVisibility(View.INVISIBLE);
+        else
+            learned.setTag(verse.id);
+
         return verseView;
     }
 
@@ -35,5 +42,13 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         while (i<getCount() && verse.comesAfter(getItem(i)))
             ++i;
         insert(verse, i);
+    }
+
+    public void markLearned(int verseId){
+        int i=0;
+        while(i<getCount() && getItem(i).id != verseId)
+            ++i;
+        getItem(i).learned = true;
+        notifyDataSetChanged();
     }
 }

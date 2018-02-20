@@ -22,6 +22,7 @@ import java.util.List;
 public class VerseListActivity extends AppCompatActivity {
 
     public static final int ADD_VERSE_CODE = 1;
+    public static final int LEARN_VERSE_CODE = 2;
     public static final String SHARED_PREFS_TAG = "org.gospelcoding.biblehead.shared_prefs";
     public static final String VERSION = "version";
     public static final String NOTIFICATION_CHANNEL = "daily_review_reminder";
@@ -134,6 +135,12 @@ public class VerseListActivity extends AppCompatActivity {
         mNotificationManager.createNotificationChannel(mChannel);
     }
 
+    public void clickLearn(View button){
+        int verseId = (Integer) button.getTag();
+        Intent intent = new Intent(this, LearnActivity.class);
+        intent.putExtra(LearnActivity.VERSE_ID, verseId);
+        startActivityForResult(intent, LEARN_VERSE_CODE);
+    }
 
     public void clickAddVerse(View v){
         Intent intent = new Intent(this, AddVerseActivity.class);
@@ -143,8 +150,17 @@ public class VerseListActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK) {
-            int newVerseId = data.getIntExtra(AddVerseActivity.VERSE_ID_CODE, -1);
-            new AddVerseTask().execute(newVerseId);
+            switch(requestCode){
+                case ADD_VERSE_CODE:
+                    int newVerseId = data.getIntExtra(AddVerseActivity.VERSE_ID_CODE, -1);
+                    new AddVerseTask().execute(newVerseId);
+                    break;
+                case LEARN_VERSE_CODE:
+                    int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
+                    if (verseId > 0)
+                        verseArrayAdapter.markLearned(verseId);
+                    break;
+            }
         }
     }
 

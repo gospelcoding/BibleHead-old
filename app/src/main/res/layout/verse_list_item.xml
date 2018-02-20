@@ -22,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/learn"/>
+        android:text="@string/learn"
+        android:onClick="clickLearn"/>
 
 </android.support.constraint.ConstraintLayout>

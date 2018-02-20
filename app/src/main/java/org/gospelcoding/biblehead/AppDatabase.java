@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Database(entities = {Verse.class}, version = 2)
+@Database(entities = {Verse.class}, version = 3)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -26,7 +26,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static synchronized AppDatabase getDatabase(Context context){
         if (dbInstance == null)
          return Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "biblehead")
-                    .addMigrations(MIGRATION_1_2).build();
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
         else
             return dbInstance;
     }
@@ -56,11 +56,17 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     }
 
-
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE verse ADD COLUMN bibleBookNumber INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE verse ADD COLUMN learned INTEGER NOT NULL DEFAULT 0");
         }
     };
 }

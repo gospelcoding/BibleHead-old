@@ -19,6 +19,12 @@
     <string name="verse_added">%1$s Added</string>
     <string name="verse_text_hint">Paste the text of the verse here.</string>
 
+    <!-- Learn Activity -->
+    <string name="mark_learned">✔ Learned</string>
+    <string name="rewind">&lt;&lt;</string>
+    <string name="forward">&gt;&gt;</string>
+    <string name="fast_forward">&gt;&gt;&gt;</string>
+
     <!-- Review Activity -->
     <string name="x_of_y">%1$d of %2$d</string>
 

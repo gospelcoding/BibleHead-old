@@ -25,6 +25,7 @@ public class Verse {
     public int verseEnd;
 
     // Reviews
+    public boolean learned;
     public Date lastReview;
     public int successfulReviews;
 
@@ -45,11 +46,15 @@ public class Verse {
         this.verseStart = verseStart;
         this.verseEnd = verseEnd;
 
+        this.learned = false;
         this.lastReview = new Date();
         this.successfulReviews = 0;
     }
 
     public boolean comesAfter(Verse otherVerse){
+        if (learned != otherVerse.learned)
+            return learned;
+
         if (bibleBookNumber != otherVerse.bibleBookNumber)
             return bibleBookNumber > otherVerse.bibleBookNumber;
 
