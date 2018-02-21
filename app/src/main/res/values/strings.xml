@@ -10,6 +10,11 @@
     <string name="review">Review</string>
     <string name="verse_added">%1$s Added</string>
     <string name="verse_updated">%1$s Updated</string>
+    <string name="verse_deleted">%1$s Deleted</string>
+    <string name="delete_x">X</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_delete">Are you sure you want to remove %1$s from your verses?</string>
 
     <!-- Add Verse Activity -->
     <string name="add_verse">Add Verse</string>

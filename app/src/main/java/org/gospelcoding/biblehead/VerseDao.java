@@ -1,6 +1,7 @@
 package org.gospelcoding.biblehead;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -26,4 +27,7 @@ public interface VerseDao {
 
     @Update
     void update(Verse verse);
+
+    @Delete
+    void deleteVerses(Verse... verses);
 }

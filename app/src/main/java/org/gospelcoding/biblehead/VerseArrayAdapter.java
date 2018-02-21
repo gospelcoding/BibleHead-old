@@ -1,6 +1,7 @@
 package org.gospelcoding.biblehead;
 
         import android.content.Context;
+        import android.support.annotation.Nullable;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -34,6 +35,14 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         return verseView;
     }
 
+    @Nullable
+    public Verse find(int verseId){
+        int i=0;
+        while(i<getCount() && getItem(i).id != verseId)
+            ++i;
+        return getItem(i);
+    }
+
     public void insert(Verse verse){
         int i = 0;
         while (i<getCount() && verse.comesAfter(getItem(i)))
@@ -42,18 +51,12 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
     }
 
     public void markLearned(int verseId){
-        int i=0;
-        while(i<getCount() && getItem(i).id != verseId)
-            ++i;
-        getItem(i).learned = true;
+        find(verseId).learned = true;
         notifyDataSetChanged();
     }
 
     public void update(Verse verse){
-        int i=0;
-        while(i<getCount() && getItem(i).id != verse.id)
-            ++i;
-        remove(getItem(i));
-        insert(verse, i);
+        remove(find(verse.id));
+        insert(verse);
     }
 }

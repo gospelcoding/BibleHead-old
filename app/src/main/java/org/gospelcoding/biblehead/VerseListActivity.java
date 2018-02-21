@@ -1,5 +1,6 @@
 package org.gospelcoding.biblehead;
 
+import android.app.DialogFragment;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -19,7 +20,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class VerseListActivity extends AppCompatActivity {
+public class VerseListActivity extends AppCompatActivity
+                                implements DeleteConfirmFragment.DeleteConfirmFragmentListener {
 
     public static final int ADD_VERSE_CODE = 1;
     public static final int LEARN_VERSE_CODE = 2;
@@ -132,6 +134,20 @@ public class VerseListActivity extends AppCompatActivity {
         startActivityForResult(intent, EDIT_VERSE_CODE);
     }
 
+    public void clickDelete(View button) {
+        int verseId = (Integer) ((View) button.getParent()).getTag();
+        Verse verse = verseArrayAdapter.find(verseId);
+        DeleteConfirmFragment deleteConfirm = new DeleteConfirmFragment();
+        deleteConfirm.setVerse(verse);
+        deleteConfirm.show(getFragmentManager(), "delete_verse");
+    }
+
+    @Override
+    public void onDeleteConfirm(DialogFragment dialog, Verse verse){
+        verseArrayAdapter.remove(verse);
+        new DeleteVerseTask().execute(verse);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK) {
@@ -181,6 +197,19 @@ public class VerseListActivity extends AppCompatActivity {
         public void onPostExecute(Verse verse){
             verseArrayAdapter.update(verse);
             Toast.makeText(VerseListActivity.this, getString(R.string.verse_updated, verse.getReference()), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class DeleteVerseTask extends AsyncTask<Verse, Void, Verse>{
+        @Override
+        public Verse doInBackground(Verse... verses){
+            AppDatabase.getDatabase(getApplicationContext()).verseDao().deleteVerses(verses);
+            return verses[0];
+        }
+
+        @Override
+        public void onPostExecute(Verse verse){
+            Toast.makeText(VerseListActivity.this, getString(R.string.verse_deleted, verse.getReference()), Toast.LENGTH_SHORT).show();
         }
     }
 }
