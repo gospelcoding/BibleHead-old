@@ -26,13 +26,10 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         Verse verse = getItem(position);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View verseView = inflater.inflate(R.layout.verse_list_item, parent, false);
+        verseView.setTag(verse.id);
         ((TextView) verseView.findViewById(R.id.verse_reference)).setText(verse.getReference());
-
-        Button learned = ((Button) verseView.findViewById(R.id.learn_verse));
         if (verse.learned)
-            learned.setVisibility(View.INVISIBLE);
-        else
-            learned.setTag(verse.id);
+            ((Button) verseView.findViewById(R.id.learn_verse)).setVisibility(View.INVISIBLE);
 
         return verseView;
     }
@@ -50,5 +47,13 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
             ++i;
         getItem(i).learned = true;
         notifyDataSetChanged();
+    }
+
+    public void update(Verse verse){
+        int i=0;
+        while(i<getCount() && getItem(i).id != verse.id)
+            ++i;
+        remove(getItem(i));
+        insert(verse, i);
     }
 }

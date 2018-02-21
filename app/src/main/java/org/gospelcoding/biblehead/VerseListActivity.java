@@ -23,6 +23,7 @@ public class VerseListActivity extends AppCompatActivity {
 
     public static final int ADD_VERSE_CODE = 1;
     public static final int LEARN_VERSE_CODE = 2;
+    public static final int EDIT_VERSE_CODE = 3;
     public static final String SHARED_PREFS_TAG = "org.gospelcoding.biblehead.shared_prefs";
     public static final String VERSION = "version";
     public static final String NOTIFICATION_CHANNEL = "daily_review_reminder";
@@ -136,11 +137,20 @@ public class VerseListActivity extends AppCompatActivity {
     }
 
     public void clickLearn(View button){
-        int verseId = (Integer) button.getTag();
+        int verseId = (Integer) ((View) button.getParent()).getTag();
         Intent intent = new Intent(this, LearnActivity.class);
         intent.putExtra(LearnActivity.VERSE_ID, verseId);
         startActivityForResult(intent, LEARN_VERSE_CODE);
     }
+
+    public void clickEdit(View button) {
+        int verseId = (Integer) ((View) button.getParent()).getTag();
+        Intent intent = new Intent(this, AddVerseActivity.class);
+        intent.putExtra(AddVerseActivity.EDIT_MODE, true);
+        intent.putExtra(AddVerseActivity.VERSE_ID, verseId);
+        startActivityForResult(intent, EDIT_VERSE_CODE);
+    }
+
 
     public void clickAddVerse(View v){
         Intent intent = new Intent(this, AddVerseActivity.class);
@@ -152,13 +162,16 @@ public class VerseListActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch(requestCode){
                 case ADD_VERSE_CODE:
-                    int newVerseId = data.getIntExtra(AddVerseActivity.VERSE_ID_CODE, -1);
+                    int newVerseId = data.getIntExtra(AddVerseActivity.VERSE_ID, -1);
                     new AddVerseTask().execute(newVerseId);
                     break;
                 case LEARN_VERSE_CODE:
                     int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
-                    if (verseId > 0)
-                        verseArrayAdapter.markLearned(verseId);
+                    verseArrayAdapter.markLearned(verseId);
+                    break;
+                case EDIT_VERSE_CODE:
+                    verseId = data.getIntExtra(AddVerseActivity.VERSE_ID, -1);
+                    new EditVerseTask().execute(verseId);
                     break;
             }
         }
@@ -180,6 +193,19 @@ public class VerseListActivity extends AppCompatActivity {
                 verseArrayAdapter.insert(v);
                 Toast.makeText(VerseListActivity.this, getString(R.string.verse_added, v.getReference()), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private class EditVerseTask extends AsyncTask<Integer, Void, Verse>{
+        @Override
+        public Verse doInBackground(Integer... ids){
+            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().find(ids[0]);
+        }
+
+        @Override
+        public void onPostExecute(Verse verse){
+            verseArrayAdapter.update(verse);
+            Toast.makeText(VerseListActivity.this, getString(R.string.verse_updated, verse.getReference()), Toast.LENGTH_SHORT).show();
         }
     }
 }

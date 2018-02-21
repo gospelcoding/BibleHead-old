@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">Bible Head</string>
+    <string name="channel_description">Daily Verse Review Reminder</string>
     <string name="notification_title">Daily Review</string>
     <string name="notification_text">Review your memory verses</string>
 
     <!-- Verse List Activity -->
     <string name="learn">Learn</string>
+    <string name="edit">Edit</string>
     <string name="review">Review</string>
-    <string name="channel_description">Daily Verse Review Reminder</string>
+    <string name="verse_added">%1$s Added</string>
+    <string name="verse_updated">%1$s Updated</string>
 
     <!-- Add Verse Activity -->
     <string name="add_verse">Add Verse</string>
@@ -16,7 +19,6 @@
     <string name="end_verse_after_start_verse">End verse must come after start verse.</string>
     <string name="valid_chapter_numbers">Chapter numbers must be between 1 and 150.</string>
     <string name="valid_verse_numbers">Verse numbers must be between 1 and 200.</string>
-    <string name="verse_added">%1$s Added</string>
     <string name="verse_text_hint">Paste the text of the verse here.</string>
 
     <!-- Learn Activity -->

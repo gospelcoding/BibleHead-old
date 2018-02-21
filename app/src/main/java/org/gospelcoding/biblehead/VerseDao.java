@@ -9,6 +9,9 @@ import java.util.List;
 
 @Dao
 public interface VerseDao {
+    @Query("SELECT * FROM verse WHERE id=:id")
+    Verse find(int id);
+
     @Query("SELECT * FROM verse WHERE id IN (:ids)")
     List<Verse> getById(int... ids);
 

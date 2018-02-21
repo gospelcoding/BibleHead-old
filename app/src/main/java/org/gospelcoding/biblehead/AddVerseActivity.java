@@ -15,12 +15,20 @@ import java.util.List;
 
 public class AddVerseActivity extends Activity {
 
-    public static final String VERSE_ID_CODE = "org.gospelcoding.biblehead.verse_id";
+    public static final String EDIT_MODE = "edit_mode";
+    public static final String VERSE_ID = "verse_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViews();
+
+        if (editMode())
+            new LoadVerseTask().execute();
+    }
+
+    private boolean editMode(){
+        return getIntent().getBooleanExtra(EDIT_MODE, false);
     }
 
     private void setupViews(){
@@ -30,6 +38,33 @@ public class AddVerseActivity extends Activity {
         ArrayAdapter<BibleBook> bookAdapter = new ArrayAdapter<BibleBook>(this, R.layout.book_spinner_item, bibleBooks);
         bookAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bookSpinner.setAdapter(bookAdapter);
+    }
+
+    private void loadVerseForEdit(Verse verse){
+        ((EditText) findViewById(R.id.verse_text)).setText(verse.text);
+        ((EditText) findViewById(R.id.chapter_start)).setText(String.valueOf(verse.chapterStart));
+        ((EditText) findViewById(R.id.verse_start)).setText(String.valueOf(verse.verseStart));
+        setBookSpinnerValue(verse.bibleBookNumber);
+
+        if (verse.chapterStart==verse.chapterEnd && verse.verseStart==verse.verseEnd) {  //One verse only
+            ((CheckBox) findViewById(R.id.multiverse_check)).setChecked(false);
+        }
+        else {
+            CheckBox multiverseCheck = ((CheckBox) findViewById(R.id.multiverse_check));
+            clickSetMultiverse(multiverseCheck);
+            ((EditText) findViewById(R.id.chapter_end)).setText(String.valueOf(verse.chapterEnd));
+            ((EditText) findViewById(R.id.verse_end)).setText(String.valueOf(verse.verseEnd));
+        }
+    }
+
+    private void setBookSpinnerValue(int bibleBookNumber){
+        Spinner bookSpinner = ((Spinner) findViewById(R.id.bible_book));
+        ArrayAdapter<BibleBook> bookAdapter = (ArrayAdapter) bookSpinner.getAdapter();
+        int i = 0;
+        while(i<bookAdapter.getCount() && bookAdapter.getItem(i).getUsfmNumber() != bibleBookNumber)
+            ++i;
+        if (i < bookAdapter.getCount())
+            bookSpinner.setSelection(i);
     }
 
     public void clickSetMultiverse(View multiverseCheck){
@@ -57,7 +92,12 @@ public class AddVerseActivity extends Activity {
     public void clickSaveVerse(View v) {
         Verse verse = buildVerse();
         if (verse.isValid()) {
-            new SaveVerseTask().execute(verse);
+            if (editMode()) {
+                verse.id = getIntent().getIntExtra(VERSE_ID, -1);
+                new UpdateVerseTask().execute(verse);
+            }
+            else
+                new AddVerseTask().execute(verse);
         }
         else {
             String message = "";
@@ -104,15 +144,47 @@ public class AddVerseActivity extends Activity {
         }
     }
 
-    private class SaveVerseTask extends AsyncTask<Verse, Void, Integer> {
+    private class LoadVerseTask extends AsyncTask<Void, Void, Verse> {
+        @Override
+        protected Verse doInBackground(Void... v){
+            int verseId = getIntent().getIntExtra(VERSE_ID, -1);
+            return AppDatabase.getDatabase(AddVerseActivity.this).verseDao().find(verseId);
+        }
+
+        @Override
+        protected void onPostExecute(Verse verse){
+            loadVerseForEdit(verse);
+        }
+    }
+
+    private class AddVerseTask extends AsyncTask<Verse, Void, Integer> {
+        @Override
         protected Integer doInBackground(Verse... verses){
             Verse verse = verses[0];
             return (int) AppDatabase.getDatabase(AddVerseActivity.this).verseDao().insert(verse);
         }
 
+        @Override
         protected void onPostExecute(Integer verseId){
             Intent result = new Intent();
-            result.putExtra(VERSE_ID_CODE, verseId);
+            result.putExtra(VERSE_ID, verseId);
+            setResult(RESULT_OK, result);
+            finish();
+        }
+    }
+
+    private class UpdateVerseTask extends AsyncTask<Verse, Void, Void> {
+        @Override
+        protected Void doInBackground(Verse... verses){
+            Verse verse = verses[0];
+            AppDatabase.getDatabase(AddVerseActivity.this).verseDao().update(verse);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v){
+            Intent result = new Intent();
+            result.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
             setResult(RESULT_OK, result);
             finish();
         }
