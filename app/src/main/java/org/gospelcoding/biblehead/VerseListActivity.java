@@ -45,6 +45,18 @@ public class VerseListActivity extends AppCompatActivity {
         AlarmManager.setAlarm(getApplicationContext());
     }
 
+    private void checkIfUpdateAndProcess(){
+        SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
+        int lastVersion = values.getInt(VERSION, 0);
+
+        int currentVersion = BuildConfig.VERSION_CODE;
+        if (lastVersion != currentVersion) {
+            SharedPreferences.Editor valuesEditor = values.edit();
+            valuesEditor.putInt(VERSION, currentVersion);
+            valuesEditor.commit();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
@@ -59,6 +71,9 @@ public class VerseListActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ReviewActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.add_verse:
+                launchAddVerseActivity();
+                break;
             default:
                 Log.e("BHUI", "Unexpected menuItem in VerseListActivity.onOptionsItemSelected");
 
@@ -67,46 +82,10 @@ public class VerseListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void checkIfUpdateAndProcess(){
-        SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
-        int lastVersion = values.getInt(VERSION, 0);
-
-        int currentVersion = BuildConfig.VERSION_CODE;
-        if (lastVersion != currentVersion) {
-            SharedPreferences.Editor valuesEditor = values.edit();
-            valuesEditor.putInt(VERSION, currentVersion);
-            valuesEditor.commit();
-        }
+    private void launchAddVerseActivity(){
+        Intent intent = new Intent(this, AddVerseActivity.class);
+        startActivityForResult(intent, ADD_VERSE_CODE);
     }
-
-//    private class SetBibleBookNumbersTask extends AsyncTask<Void, Void, Void>{
-//        @Override
-//        public Void doInBackground(Void... v){
-//            AppDatabase db = AppDatabase.getDatabase(VerseListActivity.this);
-//            List<BibleBook> bibleBooks = BibleBook.getBibleBooks(VerseListActivity.this);
-//            List<Verse> verses = AppDatabase.getDatabase(VerseListActivity.this).verseDao().getAll();
-//            for( Verse verse : verses){
-//                int i = 0;
-//                while(i< bibleBooks.size() && !bibleBooks.get(i).getName().equals(verse.bibleBook))
-//                    ++i;
-//                if (i < bibleBooks.size()) {
-//                    verse.bibleBookNumber = bibleBooks.get(i).getUsfmNumber();
-//                    db.verseDao().update(verse);
-//                }
-//                else {
-//                    Log.e("BHDB", "Could not find Bible book for " + verse.bibleBook);
-//                }
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        public void onPostExecute(Void v){
-//            Toast.makeText(VerseListActivity.this, "Bible Book Ids Loaded", Toast.LENGTH_SHORT).show();
-//            Log.d("BHDB", "Set Bible Book Numbers");
-//        }
-//    }
-
 
     private class LoadVersesTask extends AsyncTask<Void, Void, List<Verse>>{
         @Override
@@ -119,6 +98,8 @@ public class VerseListActivity extends AppCompatActivity {
             verseArrayAdapter = new VerseArrayAdapter(VerseListActivity.this, verses);
             ListView verseListView = (ListView) findViewById(R.id.verse_list_view);
             verseListView.setAdapter(verseArrayAdapter);
+            if (verses.size() == 0)
+                launchAddVerseActivity();
         }
     }
 
@@ -149,12 +130,6 @@ public class VerseListActivity extends AppCompatActivity {
         intent.putExtra(AddVerseActivity.EDIT_MODE, true);
         intent.putExtra(AddVerseActivity.VERSE_ID, verseId);
         startActivityForResult(intent, EDIT_VERSE_CODE);
-    }
-
-
-    public void clickAddVerse(View v){
-        Intent intent = new Intent(this, AddVerseActivity.class);
-        startActivityForResult(intent, ADD_VERSE_CODE);
     }
 
     @Override

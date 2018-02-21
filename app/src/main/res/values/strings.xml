@@ -29,6 +29,7 @@
 
     <!-- Review Activity -->
     <string name="x_of_y">%1$d of %2$d</string>
+    <string name="loading">Loading...</string>
 
     <string-array name="bible_books">
         <item>Genesis</item>
