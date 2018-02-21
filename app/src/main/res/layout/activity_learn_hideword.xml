@@ -30,7 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/verse_reference"
-        app:layout_constraintBottom_toTopOf="@id/rewind"
+        app:layout_constraintBottom_toTopOf="@id/peek"
         app:layout_constraintVertical_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,29 +38,28 @@
         android:fontFamily="monospace"
         android:textSize="18sp"/>
 
-    <Button
-        android:id="@+id/rewind"
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/peek"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/hide_med"
         android:padding="20dp"
-        android:text="@string/rewind"
-        android:onClick="clickHideRewind"/>
+        app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
 
-    <Button
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/hide_med"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rewind"
+        app:layout_constraintStart_toEndOf="@id/peek"
         app:layout_constraintEnd_toStartOf="@id/hide_fast"
         android:padding="20dp"
-        android:text="@string/forward"
+        app:srcCompat="@drawable/ic_play_arrow_black_24dp"
         android:onClick="clickHideMed"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/hide_fast"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -68,7 +67,7 @@
         app:layout_constraintStart_toEndOf="@id/hide_med"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="20dp"
-        android:text="@string/fast_forward"
+        app:srcCompat="@drawable/ic_fast_forward_black_24dp"
         android:onClick="clickHideFast"/>
 
 </android.support.constraint.ConstraintLayout>

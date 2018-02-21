@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class LearnActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn_hideword);
+        setPeekButtonListener();
 
         new LoadVerseTask().execute();
     }
@@ -93,6 +96,25 @@ public class LearnActivity extends Activity {
         char[] dashes = new char[count];
         Arrays.fill(dashes, '-');
         return new String(dashes);
+    }
+
+    private void setPeekButtonListener(){
+        ((ImageButton) findViewById(R.id.peek)).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                TextView textView = (TextView) findViewById(R.id.verse_text);
+                switch(motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        textView.setText(verseText);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        textView.setText(currentText);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
     public void clickHideRewind(View v){
