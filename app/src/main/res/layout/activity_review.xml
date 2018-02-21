@@ -4,17 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.gospelcoding.biblehead.ReviewActivity">
+    tools:context="org.gospelcoding.biblehead.ReviewActivity"
+    android:background="@color/grey">
 
     <TextView
         android:id="@+id/verse_reference"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/verse_number"
         android:text="@string/loading"
-        android:textSize="30sp"
-        android:textColor="#000000"/>
+        android:theme="@style/AppTheme.Header"
+        android:background="@color/white"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"/>
 
     <TextView
         android:id="@+id/verse_number"
@@ -23,16 +28,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text=""
-        android:textSize="30sp"
-        android:textColor="#000000"/>
+        android:theme="@style/AppTheme.Header"
+        android:textStyle="normal"
+        android:background="@color/white"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"/>
 
     <ScrollView
         android:id="@+id/verse_text_scroll"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintTop_toBottomOf="@id/verse_reference"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/show_word">
 
         <TextView
@@ -42,6 +55,8 @@
             android:text=""
             android:textSize="25sp"
             android:textColor="#000000"
+            android:background="@color/white"
+            android:padding="4dp"
             android:breakStrategy="simple"/>
 
     </ScrollView>
@@ -53,7 +68,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/show_phrase"
-        android:padding="20dp"
+        android:theme="@style/AppTheme.BlueMainButton"
         android:text=">"
         android:onClick="clickShowWord"/>
 
@@ -64,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/show_word"
         app:layout_constraintEnd_toStartOf="@id/show_all"
-        android:padding="20dp"
+        android:theme="@style/AppTheme.BlueMainButton"
         android:text=">>"
         android:onClick="clickShowPhrase"/>
 
@@ -75,7 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/show_phrase"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="20dp"
+        android:theme="@style/AppTheme.BlueMainButton"
         android:text=">|"
         android:onClick="clickShowAll"/>
 
@@ -86,8 +101,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/review_success"
-        android:padding="20dp"
-        android:visibility="gone"
+        android:theme="@style/AppTheme.RedMainButton"
+        android:visibility="invisible"
         android:text="X"
         android:onClick="clickReviewFailure"/>
 
@@ -98,8 +113,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/review_failure"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="20dp"
-        android:visibility="gone"
+        android:theme="@style/AppTheme.GreenMainButton"
+        android:visibility="invisible"
         android:text="✔"
         android:onClick="clickReviewSuccess"/>
 

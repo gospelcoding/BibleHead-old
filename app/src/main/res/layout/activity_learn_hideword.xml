@@ -4,24 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.gospelcoding.biblehead.LearnActivity">
+    tools:context="org.gospelcoding.biblehead.LearnActivity"
+    android:background="@color/grey">
 
     <TextView
         android:id="@+id/verse_reference"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="Genesis 1:1"
-        android:textSize="30sp"
-        android:textColor="#000000"/>
+        android:theme="@style/AppTheme.Header"
+        android:background="@color/white"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
 
     <Button
         android:id="@+id/mark_learned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/verse_reference"
+        app:layout_constraintBottom_toBottomOf="@id/verse_reference"
         app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/AppTheme.GreenButton"
+        android:layout_marginRight="12dp"
         android:text="@string/mark_learned"
         android:onClick="clickMarkLearned"/>
 
@@ -34,6 +43,9 @@
         app:layout_constraintVertical_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:padding="4dp"
+        android:layout_margin="8dp"
+        android:background="@color/white"
         android:text="In the beginning"
         android:fontFamily="monospace"
         android:textSize="18sp"/>
@@ -41,33 +53,59 @@
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/peek"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/hide_med"
-        android:padding="20dp"
-        app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
+        android:theme="@style/AppTheme.YellowMainButton"
+        app:srcCompat="@drawable/ic_remove_red_eye_black_24dp"
+        android:visibility="invisible" />
 
-    <android.support.v7.widget.AppCompatImageButton
+    <Button
         android:id="@+id/hide_med"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/peek"
         app:layout_constraintEnd_toStartOf="@id/hide_fast"
-        android:padding="20dp"
-        app:srcCompat="@drawable/ic_play_arrow_black_24dp"
+        android:theme="@style/AppTheme.BlueMainButton"
+        android:text=">>"
         android:onClick="clickHideMed"/>
 
-    <android.support.v7.widget.AppCompatImageButton
+    <Button
         android:id="@+id/hide_fast"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/hide_med"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="20dp"
-        app:srcCompat="@drawable/ic_fast_forward_black_24dp"
+        android:theme="@style/AppTheme.BlueMainButton"
+        android:text=">>>"
         android:onClick="clickHideFast"/>
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/reset"
+        android:layout_width="0dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/big_mark_learned"
+        android:theme="@style/AppTheme.BlueMainButton"
+        app:srcCompat="@drawable/ic_replay_black_24dp"
+        android:onClick="clickReset"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/big_mark_learned"
+        android:layout_width="0dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/AppTheme.GreenMainButton"
+        android:textStyle="normal"
+        android:text="✔"
+        android:onClick="clickMarkLearned"
+        android:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

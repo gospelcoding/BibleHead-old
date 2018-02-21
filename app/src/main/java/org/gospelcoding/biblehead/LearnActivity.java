@@ -77,20 +77,25 @@ public class LearnActivity extends Activity {
             currentText = currentText.substring(0, indices[0]) + sub + currentText.substring(indices[1]);
         }
         position = newPosition;
+
         ((TextView) findViewById(R.id.verse_text)).setText(currentText);
+        findViewById(R.id.peek).setVisibility(View.VISIBLE);
+
+        if (position == wordIndices.size())
+            showHideButtons(true);
     }
 
-    private void rewindStep(int step){
-        int stopPosition = Math.max(position - step, 0);
-        int newPosition;
-        for(newPosition=position; newPosition>stopPosition; --newPosition){
-            int[] indices = wordIndices.get(newPosition - 1);
-            String sub = verseText.substring(indices[0], indices[1]);
-            currentText = currentText.substring(0, indices[0]) + sub + currentText.substring(indices[1]);
-        }
-        position = newPosition;
-        ((TextView) findViewById(R.id.verse_text)).setText(currentText);
-    }
+//    private void rewindStep(int step){
+//        int stopPosition = Math.max(position - step, 0);
+//        int newPosition;
+//        for(newPosition=position; newPosition>stopPosition; --newPosition){
+//            int[] indices = wordIndices.get(newPosition - 1);
+//            String sub = verseText.substring(indices[0], indices[1]);
+//            currentText = currentText.substring(0, indices[0]) + sub + currentText.substring(indices[1]);
+//        }
+//        position = newPosition;
+//        ((TextView) findViewById(R.id.verse_text)).setText(currentText);
+//    }
 
     private String dashes(int count){
         char[] dashes = new char[count];
@@ -117,9 +122,9 @@ public class LearnActivity extends Activity {
         });
     }
 
-    public void clickHideRewind(View v){
-        rewindStep(DEFAULT_STEP);
-    }
+//    public void clickHideRewind(View v){
+//        rewindStep(DEFAULT_STEP);
+//    }
 
     public void clickHideMed(View v){
         takeStep(DEFAULT_STEP);
@@ -130,6 +135,13 @@ public class LearnActivity extends Activity {
         takeStep(step);
     }
 
+    public void clickReset(View v){
+        position = 0;
+        currentText = verseText;
+        ((TextView) findViewById(R.id.verse_text)).setText(currentText);
+        showHideButtons(false);
+    }
+
     public void clickMarkLearned(View v){
         verse.learned = true;
         new VerseUpdater().execute(verse);
@@ -138,6 +150,17 @@ public class LearnActivity extends Activity {
         result.putExtra(VERSE_ID, verse.id);
         setResult(RESULT_OK, result);
         finish();
+    }
+
+    private void showHideButtons(boolean showResetAndLearned){
+        int visibility = showResetAndLearned ? View.VISIBLE : View.INVISIBLE;
+        findViewById(R.id.reset).setVisibility(visibility);
+        findViewById(R.id.big_mark_learned).setVisibility(visibility);
+
+        visibility = showResetAndLearned ? View.INVISIBLE : View.VISIBLE;
+        findViewById(R.id.hide_med).setVisibility(visibility);
+        findViewById(R.id.hide_fast).setVisibility(visibility);
+        findViewById(R.id.peek).setVisibility(View.INVISIBLE);
     }
 
     private class VerseUpdater extends AsyncTask<Verse, Void, Void>{

@@ -15,8 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bible_book"
-        android:textSize="25sp"
-        android:hint="@string/verse_text_hint"/>
+        android:padding="8dp"
+        android:hint="@string/verse_text_hint"
+        android:nextFocusDown="@id/bible_book"/>
 
     <Spinner
         android:id="@+id/bible_book"
@@ -24,7 +25,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/chapter_start"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:nextFocusDown="@id/chapter_start" />
 
     <EditText
         android:id="@+id/chapter_start"
@@ -36,7 +38,8 @@
         android:inputType="number"
         android:hint="1"
         android:textAlignment="viewEnd"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:nextFocusDown="@id/verse_start"/>
 
     <TextView
         android:id="@+id/colon1"
@@ -59,7 +62,8 @@
         android:inputType="number"
         android:hint="1"
         android:textAlignment="viewEnd"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:nextFocusDown="@id/multiverse_check" />
 
     <TextView
         android:id="@+id/dash"
@@ -94,7 +98,8 @@
         android:hint="1"
         android:textAlignment="viewEnd"
         android:textSize="25sp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:nextFocusDown="@id/verse_end"/>
 
     <TextView
         android:id="@+id/colon2"
@@ -127,7 +132,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:onClick="clickSaveVerse"
-        android:padding="20dp"
+        android:theme="@style/AppTheme.BlueButton"
+        android:textSize="16sp"
+        android:padding="22dp"
         android:text="@string/save_verse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/verse_text"
