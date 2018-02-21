@@ -26,8 +26,11 @@ public class VerseListActivity extends AppCompatActivity
     public static final int ADD_VERSE_CODE = 1;
     public static final int LEARN_VERSE_CODE = 2;
     public static final int EDIT_VERSE_CODE = 3;
+
     public static final String SHARED_PREFS_TAG = "org.gospelcoding.biblehead.shared_prefs";
     public static final String VERSION = "version";
+    public static final String LEARNED_A_VERSE = "learned_a_verse";
+
     public static final String NOTIFICATION_CHANNEL = "daily_review_reminder";
 
     VerseArrayAdapter verseArrayAdapter;
@@ -35,16 +38,20 @@ public class VerseListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verse_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setupUI();
 
         checkIfUpdateAndProcess();
 
         new LoadVersesTask().execute();
 
         setupNotificationChannel();
-        AlarmManager.setAlarm(getApplicationContext());
+        setupAlarm();
+    }
+
+    private void setupUI(){
+        setContentView(R.layout.activity_verse_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     private void checkIfUpdateAndProcess(){
@@ -62,6 +69,9 @@ public class VerseListActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        boolean learnedAVerse = getSharedPreferences(SHARED_PREFS_TAG, 0).getBoolean(LEARNED_A_VERSE, false);
+        if (!learnedAVerse)
+            menu.findItem(R.id.review_verses).setVisible(false);
         return true;
     }
 
@@ -119,6 +129,11 @@ public class VerseListActivity extends AppCompatActivity
         mNotificationManager.createNotificationChannel(mChannel);
     }
 
+    private void setupAlarm(){
+        if( getSharedPreferences(SHARED_PREFS_TAG, 0).getBoolean(LEARNED_A_VERSE, false))
+            AlarmManager.setAlarm(getApplicationContext());
+    }
+
     public void clickLearn(View button){
         int verseId = (Integer) ((View) button.getParent()).getTag();
         Intent intent = new Intent(this, LearnActivity.class);
@@ -158,13 +173,26 @@ public class VerseListActivity extends AppCompatActivity
                     break;
                 case LEARN_VERSE_CODE:
                     int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
-                    verseArrayAdapter.markLearned(verseId);
+                    markLearned(verseId);
                     break;
                 case EDIT_VERSE_CODE:
                     verseId = data.getIntExtra(AddVerseActivity.VERSE_ID, -1);
                     new EditVerseTask().execute(verseId);
                     break;
             }
+        }
+    }
+
+    private void markLearned(int verseId){
+        verseArrayAdapter.markLearned(verseId);
+        SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
+        if (!values.getBoolean(LEARNED_A_VERSE, false)){
+            SharedPreferences.Editor valuesEditor = values.edit();
+            valuesEditor.putBoolean(LEARNED_A_VERSE, true);
+            valuesEditor.commit();
+            Toolbar toolbar = ((Toolbar) findViewById(R.id.toolbar));
+            toolbar.getMenu().findItem(R.id.review_verses).setVisible(true);
+            setupAlarm();
         }
     }
 

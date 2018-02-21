@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -42,9 +43,15 @@ public class ReviewActivity extends Activity {
 
         @Override
         public void onPostExecute(List<Verse> reviewVerses){
-            ReviewActivity.this.reviewVerses = reviewVerses;
-            currentVerseIndex = 0;
-            reviewNextVerse();
+            if (reviewVerses.size() == 0) {
+                Toast.makeText(getApplicationContext(), R.string.no_learned_verses, Toast.LENGTH_LONG).show();
+                finish();
+            }
+            else {
+                ReviewActivity.this.reviewVerses = reviewVerses;
+                currentVerseIndex = 0;
+                reviewNextVerse();
+            }
         }
     }
 
