@@ -26,8 +26,6 @@ public class AlarmManager {
         Calendar rVal = Calendar.getInstance();
         rVal.set(Calendar.HOUR_OF_DAY, hour);
         rVal.set(Calendar.MINUTE, minute);
-        int offset = rVal.getTimeZone().getRawOffset();
-        rVal.add(Calendar.MILLISECOND, offset);
         if(now.getTimeInMillis() > rVal.getTimeInMillis())
             rVal.add(Calendar.DAY_OF_MONTH, 1);
         return rVal;
