@@ -32,12 +32,17 @@ public class Verse {
     @Ignore
     public List<Integer> validationErrors;
 
-    @Ignore
-    Verse(String text, String bibleBook, int bibleBookNumber, int chapterStart, int verseStart){
-        this(text, bibleBook, bibleBookNumber, chapterStart, chapterStart, verseStart, verseStart);
+    Verse(){
+        learned = false;
+        lastReview = new Date();
+        successfulReviews = 0;
     }
 
-    Verse(String text, String bibleBook, int bibleBookNumber, int chapterStart, int chapterEnd, int verseStart, int verseEnd){
+    public void update(String text, String bibleBook, int bibleBookNumber, int chapterStart, int verseStart){
+        update(text, bibleBook, bibleBookNumber, chapterStart, chapterStart, verseStart, verseStart);
+    }
+
+    public void update(String text, String bibleBook, int bibleBookNumber, int chapterStart, int chapterEnd, int verseStart, int verseEnd){
         this.text = text;
         this.bibleBook = bibleBook;
         this.bibleBookNumber = bibleBookNumber;
@@ -45,10 +50,6 @@ public class Verse {
         this.chapterEnd = chapterEnd;
         this.verseStart = verseStart;
         this.verseEnd = verseEnd;
-
-        this.learned = false;
-        this.lastReview = new Date();
-        this.successfulReviews = 0;
     }
 
     public boolean comesAfter(Verse otherVerse){

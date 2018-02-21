@@ -18,6 +18,8 @@ public class AddVerseActivity extends Activity {
     public static final String EDIT_MODE = "edit_mode";
     public static final String VERSE_ID = "verse_id";
 
+    private Verse verse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class AddVerseActivity extends Activity {
         }
         else {
             CheckBox multiverseCheck = ((CheckBox) findViewById(R.id.multiverse_check));
+            multiverseCheck.setChecked(true);
             clickSetMultiverse(multiverseCheck);
             ((EditText) findViewById(R.id.chapter_end)).setText(String.valueOf(verse.chapterEnd));
             ((EditText) findViewById(R.id.verse_end)).setText(String.valueOf(verse.verseEnd));
@@ -90,12 +93,11 @@ public class AddVerseActivity extends Activity {
     }
 
     public void clickSaveVerse(View v) {
-        Verse verse = buildVerse();
+        Verse verse = editMode() ? this.verse : new Verse();
+        setVerseValues(verse);
         if (verse.isValid()) {
-            if (editMode()) {
-                verse.id = getIntent().getIntExtra(VERSE_ID, -1);
+            if (editMode())
                 new UpdateVerseTask().execute(verse);
-            }
             else
                 new AddVerseTask().execute(verse);
         }
@@ -110,7 +112,7 @@ public class AddVerseActivity extends Activity {
         }
     }
 
-    private Verse buildVerse(){
+    private void setVerseValues(Verse verse){
         String text = ((EditText) findViewById(R.id.verse_text)).getText().toString();
         BibleBook book = (BibleBook) ((Spinner) findViewById(R.id.bible_book)).getSelectedItem();
         String bibleBook = book.getName();
@@ -120,10 +122,10 @@ public class AddVerseActivity extends Activity {
         if (((CheckBox) findViewById(R.id.multiverse_check)).isChecked()) {
             int chapterEnd = numberFromEditText(R.id.chapter_end);
             int verseEnd = numberFromEditText(R.id.verse_end);
-            return new Verse(text, bibleBook, bibleBookNumber, chapterStart, chapterEnd, verseStart, verseEnd);
+            verse.update(text, bibleBook, bibleBookNumber, chapterStart, chapterEnd, verseStart, verseEnd);
         }
         else {
-            return new Verse(text, bibleBook, bibleBookNumber, chapterStart, verseStart);
+            verse.update(text, bibleBook, bibleBookNumber, chapterStart, verseStart);
         }
     }
 
@@ -153,6 +155,7 @@ public class AddVerseActivity extends Activity {
 
         @Override
         protected void onPostExecute(Verse verse){
+            AddVerseActivity.this.verse = verse;
             loadVerseForEdit(verse);
         }
     }
