@@ -50,8 +50,9 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         insert(verse, i);
     }
 
-    public void markLearned(int verseId){
-        find(verseId).learned = true;
+    public void markLearned(int verseId, boolean learned){
+        Verse verse = find(verseId);
+        verse.learned = learned;
         notifyDataSetChanged();
     }
 

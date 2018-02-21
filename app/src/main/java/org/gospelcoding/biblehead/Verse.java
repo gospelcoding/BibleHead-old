@@ -104,4 +104,9 @@ public class Verse {
             ++successfulReviews;
     }
 
+    public void unlearn(){
+        learned = false;
+        successfulReviews = 0;
+    }
+
 }

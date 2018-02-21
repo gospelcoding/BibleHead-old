@@ -8,9 +8,10 @@
     <string name="learn">Learn</string>
     <string name="edit">Edit</string>
     <string name="review">Review</string>
-    <string name="verse_added">%1$s Added</string>
-    <string name="verse_updated">%1$s Updated</string>
-    <string name="verse_deleted">%1$s Deleted</string>
+    <string name="verse_added">%1$s added</string>
+    <string name="mark_not_learned">Mark Not Learned</string>
+    <string name="verse_updated">%1$s updated</string>
+    <string name="verse_deleted">%1$s deleted</string>
     <string name="delete_x">X</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>

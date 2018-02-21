@@ -16,12 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.util.List;
 
 public class VerseListActivity extends AppCompatActivity
-                                implements DeleteConfirmFragment.DeleteConfirmFragmentListener {
+                               implements PopupMenu.OnMenuItemClickListener,
+                                          DeleteConfirmFragment.DeleteConfirmFragmentListener {
 
     public static final int ADD_VERSE_CODE = 1;
     public static final int LEARN_VERSE_CODE = 2;
@@ -34,6 +36,7 @@ public class VerseListActivity extends AppCompatActivity
     public static final String NOTIFICATION_CHANNEL = "daily_review_reminder";
 
     VerseArrayAdapter verseArrayAdapter;
+    int popupMenuVerseId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,16 +144,50 @@ public class VerseListActivity extends AppCompatActivity
         startActivityForResult(intent, LEARN_VERSE_CODE);
     }
 
-    public void clickEdit(View button) {
-        int verseId = (Integer) ((View) button.getParent()).getTag();
+    public void clickShowVerseMenu(View button){
+        popupMenuVerseId = (Integer) ((View) button.getParent()).getTag();
+        PopupMenu popup = new PopupMenu(this, button);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.verse_menu);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item){
+        int verseId = popupMenuVerseId;
+        popupMenuVerseId = -1;
+
+        switch(item.getItemId()){
+            case R.id.mark_unlearned:
+                unlearnVerse(verseId);
+                return true;
+
+            case R.id.edit_verse:
+                editVerse(verseId);
+                return true;
+
+            case R.id.delete_verse:
+                deleteVerse(verseId);
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    private void unlearnVerse(int verseId){
+        verseArrayAdapter.markLearned(verseId, false);
+        new MarkVerseUnlearnedTask().execute(verseId);
+    }
+
+    private void editVerse(int verseId) {
         Intent intent = new Intent(this, AddVerseActivity.class);
         intent.putExtra(AddVerseActivity.EDIT_MODE, true);
         intent.putExtra(AddVerseActivity.VERSE_ID, verseId);
         startActivityForResult(intent, EDIT_VERSE_CODE);
     }
 
-    public void clickDelete(View button) {
-        int verseId = (Integer) ((View) button.getParent()).getTag();
+    private void deleteVerse(int verseId) {
         Verse verse = verseArrayAdapter.find(verseId);
         DeleteConfirmFragment deleteConfirm = new DeleteConfirmFragment();
         deleteConfirm.setVerse(verse);
@@ -184,7 +221,7 @@ public class VerseListActivity extends AppCompatActivity
     }
 
     private void markLearned(int verseId){
-        verseArrayAdapter.markLearned(verseId);
+        verseArrayAdapter.markLearned(verseId, true);
         SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
         if (!values.getBoolean(LEARNED_A_VERSE, false)){
             SharedPreferences.Editor valuesEditor = values.edit();
@@ -212,6 +249,17 @@ public class VerseListActivity extends AppCompatActivity
                 verseArrayAdapter.insert(v);
                 Toast.makeText(VerseListActivity.this, getString(R.string.verse_added, v.getReference()), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private class MarkVerseUnlearnedTask extends AsyncTask<Integer, Void, Void>{
+        @Override
+        public Void doInBackground(Integer... verseIds){
+            AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+            Verse verse = db.verseDao().find(verseIds[0]);
+            verse.unlearn();
+            db.verseDao().update(verse);
+            return null;
         }
     }
 
