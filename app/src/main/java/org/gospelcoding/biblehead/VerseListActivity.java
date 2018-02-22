@@ -152,9 +152,12 @@ public class VerseListActivity extends AppCompatActivity
 
     public void clickShowVerseMenu(View button){
         popupMenuVerseId = (Integer) ((View) button.getParent()).getTag();
+        boolean learned = verseArrayAdapter.find(popupMenuVerseId).learned;
         PopupMenu popup = new PopupMenu(this, button);
         popup.setOnMenuItemClickListener(this);
         popup.inflate(R.menu.verse_menu);
+        int hideMeView = learned ? R.id.mark_learned : R.id.mark_unlearned;
+        popup.getMenu().removeItem(hideMeView);
         popup.show();
     }
 
@@ -164,8 +167,12 @@ public class VerseListActivity extends AppCompatActivity
         popupMenuVerseId = -1;
 
         switch(item.getItemId()){
+            case R.id.mark_learned:
+                markLearned(verseId);
+                return true;
+
             case R.id.mark_unlearned:
-                unlearnVerse(verseId);
+                markUnlearned(verseId);
                 return true;
 
             case R.id.edit_verse:
@@ -181,9 +188,23 @@ public class VerseListActivity extends AppCompatActivity
         }
     }
 
-    private void unlearnVerse(int verseId){
+    private void markLearned(int verseId){
+        verseArrayAdapter.markLearned(verseId, true);
+        SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
+        if (!values.getBoolean(LEARNED_A_VERSE, false)){
+            SharedPreferences.Editor valuesEditor = values.edit();
+            valuesEditor.putBoolean(LEARNED_A_VERSE, true);
+            valuesEditor.commit();
+            Toolbar toolbar = ((Toolbar) findViewById(R.id.toolbar));
+            toolbar.getMenu().findItem(R.id.review_verses).setVisible(true);
+            setupAlarm();
+        }
+        new MarkVerseLearnedUnlearnedTask(true).execute(verseId);
+    }
+
+    private void markUnlearned(int verseId){
         verseArrayAdapter.markLearned(verseId, false);
-        new MarkVerseUnlearnedTask().execute(verseId);
+        new MarkVerseLearnedUnlearnedTask(false).execute(verseId);
     }
 
     private void editVerse(int verseId) {
@@ -234,19 +255,6 @@ public class VerseListActivity extends AppCompatActivity
         }
     }
 
-    private void markLearned(int verseId){
-        verseArrayAdapter.markLearned(verseId, true);
-        SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
-        if (!values.getBoolean(LEARNED_A_VERSE, false)){
-            SharedPreferences.Editor valuesEditor = values.edit();
-            valuesEditor.putBoolean(LEARNED_A_VERSE, true);
-            valuesEditor.commit();
-            Toolbar toolbar = ((Toolbar) findViewById(R.id.toolbar));
-            toolbar.getMenu().findItem(R.id.review_verses).setVisible(true);
-            setupAlarm();
-        }
-    }
-
     private class AddVerseTask extends AsyncTask<Integer, Void, List<Verse>>{
         @Override
         public List<Verse> doInBackground(Integer... ids){
@@ -266,12 +274,19 @@ public class VerseListActivity extends AppCompatActivity
         }
     }
 
-    private class MarkVerseUnlearnedTask extends AsyncTask<Integer, Void, Void>{
+    private class MarkVerseLearnedUnlearnedTask extends AsyncTask<Integer, Void, Void>{
+
+        private boolean learned;
+
+        public MarkVerseLearnedUnlearnedTask(boolean learned){
+            this.learned = learned;
+        }
+
         @Override
         public Void doInBackground(Integer... verseIds){
             AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
             Verse verse = db.verseDao().find(verseIds[0]);
-            verse.unlearn();
+            verse.toggleLearned(learned);
             db.verseDao().update(verse);
             return null;
         }

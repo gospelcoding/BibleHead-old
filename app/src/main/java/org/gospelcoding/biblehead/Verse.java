@@ -104,8 +104,8 @@ public class Verse {
             ++successfulReviews;
     }
 
-    public void unlearn(){
-        learned = false;
+    public void toggleLearned(boolean learned){
+        this.learned = learned;
         successfulReviews = 0;
     }
 

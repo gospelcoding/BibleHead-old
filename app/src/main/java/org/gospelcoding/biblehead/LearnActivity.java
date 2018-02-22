@@ -70,22 +70,9 @@ public abstract class LearnActivity extends AppCompatActivity {
     }
 
     protected void markLearned(){
-        verse.learned = true;
-        new VerseUpdater().execute(verse);
-
         Intent result = new Intent();
         result.putExtra(VERSE_ID, verse.id);
         setResult(RESULT_OK, result);
         finish();
-    }
-
-    protected class VerseUpdater extends AsyncTask<Verse, Void, Void>{
-        @Override
-        public Void doInBackground(Verse... verses){
-            for(Verse v : verses){
-                AppDatabase.getDatabase(LearnActivity.this).verseDao().update(v);
-            }
-            return null;
-        }
     }
 }
