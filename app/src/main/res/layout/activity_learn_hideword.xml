@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.gospelcoding.biblehead.LearnActivity"
+    tools:context="org.gospelcoding.biblehead.HideWordActivity"
     android:background="@color/grey">
 
     <android.support.design.widget.AppBarLayout
@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:padding="4dp"
             android:background="@color/white"
-            android:text=" -- the -------- was the ---- and"
+            android:text=""
             android:fontFamily="monospace"
             android:textSize="18sp" />
 

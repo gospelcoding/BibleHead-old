@@ -30,11 +30,11 @@
             android:parentActivityName=".VerseListActivity"
             android:configChanges="orientation|screenSize"/>
         <activity
-            android:name=".LearnActivity"
+            android:name=".HideWordActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".BuilderLearnActivity"
+            android:name=".VerseBuilderActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize" />
         <receiver
