@@ -20,7 +20,7 @@ public abstract class LearnActivity extends AppCompatActivity {
     protected Verse verse;
 
     // Word characters optionally including one apostrophe or hyphen
-    protected static final Pattern wordPattern = Pattern.compile("\\w+(['-]\\w+)?");
+    protected static final Pattern wordPattern = Pattern.compile("\\w+(['’-]\\w+)?");
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -40,6 +40,9 @@ public abstract class LearnActivity extends AppCompatActivity {
                 resultIntent.putExtra(VERSE_ID, verse.id);
                 resultIntent.putExtra(LEARN_GAME, switchGame());
                 setResult(RESULT_REDIRECT, resultIntent);
+                finish();
+                break;
+            case R.id.go_back:
                 finish();
                 break;
         }

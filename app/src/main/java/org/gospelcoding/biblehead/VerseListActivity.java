@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -253,6 +254,27 @@ public class VerseListActivity extends AppCompatActivity
             valuesEditor.commit();
             learn(verseId);
         }
+    }
+
+    public void clickShowText(View view){
+        int verseId = (Integer) ((View) view.getParent()).getTag();
+        String text = verseArrayAdapter.find(verseId).text;
+        TextView verseText = findViewById(R.id.verse_text);
+        verseText.setText(text);
+        verseText.setVisibility(View.VISIBLE);
+    }
+
+    public void clickDismissVerseText(View verseText){
+        verseText.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed(){
+        View verseText = findViewById(R.id.verse_text);
+        if (verseText.getVisibility() == View.VISIBLE)
+            verseText.setVisibility(View.GONE);
+        else
+            super.onBackPressed();
     }
 
     private class AddVerseTask extends AsyncTask<Integer, Void, List<Verse>>{

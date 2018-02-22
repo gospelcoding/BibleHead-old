@@ -11,4 +11,9 @@
         android:id="@+id/switch_game"
         android:title="Switch game"
         appcompat:showAsAction="never" />
+
+    <item
+        android:id="@+id/go_back"
+        android:title="@string/go_back"
+        appcompat:showAsAction="never" />
 </menu>

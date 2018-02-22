@@ -10,10 +10,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/progress"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:text="Romans 1:16"
+        android:onClick="clickShowText" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/verse_reference"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textSize="18sp"
-        android:textColor="#000000"/>
+        android:layout_marginStart="8dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="false"
+        android:progress="100"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/learn_verse"

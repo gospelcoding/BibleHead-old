@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,6 +97,11 @@ public class Verse {
         }
 
         return ref;
+    }
+
+    public int getProgress(){
+        double progress = 100 - (1000 / (successfulReviews + 10.0));
+        return (int) Math.round(progress);
     }
 
     public void markReviewed(boolean success){

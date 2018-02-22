@@ -2,12 +2,14 @@ package org.gospelcoding.biblehead;
 
         import android.content.Context;
         import android.support.annotation.Nullable;
+        import android.support.constraint.ConstraintLayout;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
 
         import android.widget.ArrayAdapter;
         import android.widget.Button;
+        import android.widget.ProgressBar;
         import android.widget.TextView;
 
         import java.util.List;
@@ -29,9 +31,13 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         View verseView = inflater.inflate(R.layout.verse_list_item, parent, false);
         verseView.setTag(verse.id);
         ((TextView) verseView.findViewById(R.id.verse_reference)).setText(verse.getReference());
-        if (verse.learned)
+        if (verse.learned) {
             ((Button) verseView.findViewById(R.id.learn_verse)).setVisibility(View.INVISIBLE);
-
+            ProgressBar bar = verseView.findViewById(R.id.progress);
+            bar.setVisibility(View.VISIBLE);
+            int progress = 2 * verse.getProgress();
+            bar.getLayoutParams().width = progress;
+        }
         return verseView;
     }
 
