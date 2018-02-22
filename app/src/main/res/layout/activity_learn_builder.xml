@@ -49,31 +49,32 @@
         <!--android:text="@string/mark_learned"-->
         <!--android:onClick="clickMarkLearned"/>-->
 
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/scroll_verse_text"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_container"
-        android:layout_margin="8dp"
-        android:background="@color/white">
+        app:layout_constraintBottom_toTopOf="@id/word_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/verse_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text=""
             android:background="@color/white"
             android:textSize="24dp"
             android:textColor="#000000"
             android:padding="6dp"
             />
-    </HorizontalScrollView>
+    </ScrollView>
 
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/word_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/scroll_verse_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

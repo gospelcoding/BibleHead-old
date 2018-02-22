@@ -7,19 +7,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 
 public class VerseBuilderActivity extends LearnActivity {
 
-    private List<VerseWord> verseWords;
+    private static int DISPLAYED_WORDS = 12;
+
+    ContextThemeWrapper buttonContext = new ContextThemeWrapper(this, R.style.AppTheme_BlueButton);
+
+    private ArrayList<VerseWord> verseWords;
+    private ArrayList<VerseWord> shuffledWords;
     private List<Integer> indices;
     private int position;
 
@@ -44,75 +48,105 @@ public class VerseBuilderActivity extends LearnActivity {
         ((TextView) findViewById(R.id.big_verse_text)).setText(verse.text);
 
         verseWords = new ArrayList();
-        List<VerseWord> scrambleWords = new ArrayList();
         indices = new ArrayList();
         Matcher matcher = wordPattern.matcher(verse.text);
         while(matcher.find()){
             String word = matcher.group().toLowerCase();
             VerseWord vWord = new VerseWord(word, verseWords.size());
             verseWords.add(vWord);
-            scrambleWords.add(vWord);
             indices.add(matcher.end());
         }
 
         position = 0;
-        Collections.shuffle(scrambleWords);
-        makeWordButtons(scrambleWords);
+        makeWordButtons(shuffle(verseWords));
+    }
+
+    // A riff on the alorithm used by Collections.shuffle
+    // Scrambles words while guaranteeing that no word moves
+    // farther back than DISPLAYED_WORD places which would
+    // break the game.
+    private List<VerseWord> shuffle(ArrayList<VerseWord> verseWords){
+        ArrayList<VerseWord> shuffledWords = (ArrayList) verseWords.clone();
+        for(int i=shuffledWords.size()-1; i>0; --i){
+            VerseWord swapMe = shuffledWords.get(i);
+            int swapIndex = i - randomInt(DISPLAYED_WORDS-1, i);
+            shuffledWords.set(i, shuffledWords.get(swapIndex));
+            shuffledWords.set(swapIndex, swapMe);
+        }
+        this.shuffledWords = shuffledWords;
+        return shuffledWords;
+    }
+
+    private int randomInt(int limit1, int limit2){
+        int limit = Math.min(limit1, limit2);
+        return (int) (limit * Math.random());
     }
 
     private void makeWordButtons(List<VerseWord> scrambleWords){
         FlexboxLayout wordContainer = (FlexboxLayout) findViewById(R.id.word_container);
-        ContextThemeWrapper newContext = new ContextThemeWrapper(this, R.style.AppTheme_BlueButton);
-        for(VerseWord vWord : scrambleWords){
-            Button wordButton = new Button(newContext);
-            wordButton.setText(vWord.word);
-            wordButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View button) {
-                    String guess = (String) ((Button) button).getText();
-                    checkGuess(guess, button);
-                }
-            });
-            wordContainer.addView(wordButton);
+        int numberOfButtons = Math.min(DISPLAYED_WORDS, scrambleWords.size());
+        for(int i=0; i<numberOfButtons; ++i){
+            addButton(wordContainer, i, scrambleWords.get(i).word);
         }
+    }
+
+    private void addButton(FlexboxLayout wordContainer, int index, String word){
+        Button wordButton = new Button(buttonContext);
+        wordButton.setText(word);
+        wordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                String guess = (String) ((Button) button).getText();
+                checkGuess(guess, button);
+            }
+        });
+        wordContainer.addView(wordButton, index);
     }
 
     private void checkGuess(String guess, View button){
         if (verseWords.get(position).word.equals(guess)){
             String text = verse.text.substring(0, indices.get(position));
             ((TextView) findViewById(R.id.verse_text)).setText(text);
-
-            position++;
-            if (position == verseWords.size()){
-                findViewById(R.id.reset).setVisibility(View.VISIBLE);
-                findViewById(R.id.big_mark_learned).setVisibility(View.VISIBLE);
-                findViewById(R.id.big_verse_text).setVisibility(View.VISIBLE);
-                //findViewById(R.id.scroll_verse_text).setVisibility(View.INVISIBLE);
-                //findViewById(R.id.word_container).setVisibility(View.INVISIBLE);
-            }
-
-            button.setVisibility(View.INVISIBLE);
-            reBluifyButtons();
-            final HorizontalScrollView scroll = (HorizontalScrollView) findViewById(R.id.scroll_verse_text);
+            final ScrollView scroll = findViewById(R.id.scroll_verse_text);
             scroll.post(new Runnable() {
                 @Override
                 public void run() {
-                    scroll.fullScroll(View.FOCUS_RIGHT);
+                    scroll.fullScroll(View.FOCUS_DOWN);
                 }
             });
+
+            position++;
+            if (position == verseWords.size())
+                finishGame();
+            else{
+                FlexboxLayout wordContainer = (FlexboxLayout) button.getParent();
+                reBluifyButtons(wordContainer);
+                int addWordIndex = position + DISPLAYED_WORDS - 1;
+                if (addWordIndex < shuffledWords.size()){
+                    int viewIndex = wordContainer.indexOfChild(button);
+                    wordContainer.removeView(button);
+                    addButton(wordContainer, viewIndex, shuffledWords.get(addWordIndex).word);
+                }
+                else
+                    button.setVisibility(View.INVISIBLE);
+            }
         }
         else {
-            //button.setBackgroundColor(getResources().getColor(R.color.red));
             ViewCompat.setBackgroundTintList(button, ContextCompat.getColorStateList(button.getContext(), R.color.red));
         }
     }
 
-    private void reBluifyButtons(){
-        FlexboxLayout wordContainer = findViewById(R.id.word_container);
+    private void reBluifyButtons(FlexboxLayout wordContainer){
         for(int i=0; i<wordContainer.getChildCount(); ++i){
             View button = wordContainer.getChildAt(i);
             ViewCompat.setBackgroundTintList(button, ContextCompat.getColorStateList(button.getContext(), R.color.blue));
         }
+    }
+
+    private void finishGame(){
+        findViewById(R.id.reset).setVisibility(View.VISIBLE);
+        findViewById(R.id.big_mark_learned).setVisibility(View.VISIBLE);
+        findViewById(R.id.big_verse_text).setVisibility(View.VISIBLE);
     }
 
     public void clickReset(View v){
