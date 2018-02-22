@@ -147,6 +147,7 @@ public class VerseBuilderActivity extends LearnActivity {
         findViewById(R.id.reset).setVisibility(View.VISIBLE);
         findViewById(R.id.big_mark_learned).setVisibility(View.VISIBLE);
         findViewById(R.id.big_verse_text).setVisibility(View.VISIBLE);
+        findViewById(R.id.word_container).setVisibility(View.INVISIBLE);
     }
 
     public void clickReset(View v){
