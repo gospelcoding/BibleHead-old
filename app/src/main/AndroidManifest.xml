@@ -23,14 +23,20 @@
         </activity>
         <activity
             android:name=".AddVerseActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ReviewActivity"
-            android:parentActivityName=".VerseListActivity"/>
+            android:parentActivityName=".VerseListActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".LearnActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".BuilderLearnActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize" />
         <receiver
             android:name=".ReviewNotifier"
             android:exported="false">

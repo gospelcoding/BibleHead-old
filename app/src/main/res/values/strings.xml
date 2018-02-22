@@ -32,6 +32,8 @@
     <string name="rewind">&lt;&lt;</string>
     <string name="forward">&gt;&gt;</string>
     <string name="fast_forward">&gt;&gt;&gt;</string>
+    <string name="hide_words">Play Hide Words</string>
+    <string name="build_verse">Play Build Verse</string>
 
     <!-- Review Activity -->
     <string name="x_of_y">%1$d of %2$d</string>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="org.gospelcoding.biblehead.BuilderLearnActivity"
+    android:background="@color/grey">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!--<TextView-->
+        <!--android:id="@+id/verse_reference"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:text="Genesis 1:1"-->
+        <!--android:theme="@style/AppTheme.Header"-->
+        <!--android:background="@color/white"-->
+        <!--android:padding="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginRight="8dp"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/mark_learned"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintTop_toTopOf="@id/verse_reference"-->
+        <!--app:layout_constraintBottom_toBottomOf="@id/verse_reference"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:theme="@style/AppTheme.GreenButton"-->
+        <!--android:layout_marginRight="12dp"-->
+        <!--android:text="@string/mark_learned"-->
+        <!--android:onClick="clickMarkLearned"/>-->
+
+    <HorizontalScrollView
+        android:id="@+id/scroll_verse_text"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_container"
+        android:layout_margin="8dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/verse_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:background="@color/white"
+            android:textSize="24dp"
+            android:textColor="#000000"
+            android:padding="6dp"
+            />
+    </HorizontalScrollView>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/word_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/scroll_verse_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        app:justifyContent="space_between"
+        app:flexWrap="wrap"/>
+
+    <TextView
+        android:id="@+id/big_verse_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_container"
+        app:layout_constraintBottom_toTopOf="@id/reset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"
+        android:padding="6dp"
+        android:background="@color/white"
+        android:textSize="24sp"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/reset"
+        android:layout_width="0dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/big_mark_learned"
+        android:theme="@style/AppTheme.BlueMainButton"
+        app:srcCompat="@drawable/ic_replay_black_24dp"
+        android:onClick="clickReset"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/big_mark_learned"
+        android:layout_width="0dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/AppTheme.GreenMainButton"
+        android:textStyle="normal"
+        android:text="✔"
+        android:onClick="clickMarkLearned"
+        android:visibility="invisible"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -32,6 +32,9 @@ public class VerseListActivity extends AppCompatActivity
     public static final String SHARED_PREFS_TAG = "org.gospelcoding.biblehead.shared_prefs";
     public static final String VERSION = "version";
     public static final String LEARNED_A_VERSE = "learned_a_verse";
+    public static final String LEARN_GAME = "learn_game";
+    public static final String HIDE_WORDS = "hide_words";
+    public static final String BUILD_VERSE = "build_verse";
 
     public static final String NOTIFICATION_CHANNEL = "daily_review_reminder";
 
@@ -137,9 +140,15 @@ public class VerseListActivity extends AppCompatActivity
             AlarmManager.setAlarm(getApplicationContext());
     }
 
-    public void clickLearn(View button){
+    public void clickLearn(View button) {
         int verseId = (Integer) ((View) button.getParent()).getTag();
-        Intent intent = new Intent(this, LearnActivity.class);
+        learn(verseId);
+    }
+
+    public void learn(int verseId){
+        String game = getSharedPreferences(SHARED_PREFS_TAG, 0).getString(LEARN_GAME,  HIDE_WORDS);
+        Class activity = (game.equals(HIDE_WORDS)) ? LearnActivity.class : BuilderLearnActivity.class;
+        Intent intent = new Intent(this, activity);
         intent.putExtra(LearnActivity.VERSE_ID, verseId);
         startActivityForResult(intent, LEARN_VERSE_CODE);
     }
@@ -217,6 +226,14 @@ public class VerseListActivity extends AppCompatActivity
                     new EditVerseTask().execute(verseId);
                     break;
             }
+        }
+        else if(resultCode == LearnActivity.RESULT_REDIRECT){
+            int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
+            String game = data.getStringExtra(LEARN_GAME);
+            SharedPreferences.Editor valuesEditor = getSharedPreferences(SHARED_PREFS_TAG, 0).edit();
+            valuesEditor.putString(LEARN_GAME, game);
+            valuesEditor.commit();
+            learn(verseId);
         }
     }
 

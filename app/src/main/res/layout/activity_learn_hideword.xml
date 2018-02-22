@@ -7,48 +7,42 @@
     tools:context="org.gospelcoding.biblehead.LearnActivity"
     android:background="@color/grey">
 
-    <TextView
-        android:id="@+id/verse_reference"
-        android:layout_width="0dp"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Genesis 1:1"
-        android:theme="@style/AppTheme.Header"
-        android:background="@color/white"
-        android:padding="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <Button
-        android:id="@+id/mark_learned"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/verse_reference"
-        app:layout_constraintBottom_toBottomOf="@id/verse_reference"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:theme="@style/AppTheme.GreenButton"
-        android:layout_marginRight="12dp"
-        android:text="@string/mark_learned"
-        android:onClick="clickMarkLearned"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <TextView
-        android:id="@+id/verse_text"
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_verse_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/verse_reference"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_container"
         app:layout_constraintBottom_toTopOf="@id/peek"
-        app:layout_constraintVertical_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="4dp"
-        android:layout_margin="8dp"
-        android:background="@color/white"
-        android:text="In the beginning"
-        android:fontFamily="monospace"
-        android:textSize="18sp"/>
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/verse_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:background="@color/white"
+            android:text=" -- the -------- was the ---- and"
+            android:fontFamily="monospace"
+            android:textSize="18sp" />
+
+    </ScrollView>
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/peek"
