@@ -17,7 +17,7 @@ public class ReviewNotifier extends BroadcastReceiver {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context, VerseListActivity.NOTIFICATION_CHANNEL)
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setSmallIcon(R.drawable.ic_stat_biblehead_notification)
                         .setContentTitle(context.getString(R.string.notification_title))
                         .setContentText(context.getString(R.string.notification_text))
                         .setAutoCancel(true);
