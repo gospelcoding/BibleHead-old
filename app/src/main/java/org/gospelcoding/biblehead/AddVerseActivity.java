@@ -161,14 +161,18 @@ public class AddVerseActivity extends Activity {
     }
 
     private class AddVerseTask extends AsyncTask<Verse, Void, Integer> {
+        String verseReference;
+
         @Override
         protected Integer doInBackground(Verse... verses){
             Verse verse = verses[0];
+            verseReference = verse.getReference();
             return (int) AppDatabase.getDatabase(AddVerseActivity.this).verseDao().insert(verse);
         }
 
         @Override
         protected void onPostExecute(Integer verseId){
+            Toast.makeText(getApplicationContext(), getString(R.string.verse_added, verseReference), Toast.LENGTH_SHORT).show();
             Intent result = new Intent();
             result.putExtra(VERSE_ID, verseId);
             setResult(RESULT_OK, result);
@@ -186,6 +190,7 @@ public class AddVerseActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void v){
+            Toast.makeText(getApplicationContext(), getString(R.string.verse_updated, verse.getReference()), Toast.LENGTH_SHORT).show();
             Intent result = new Intent();
             result.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
             setResult(RESULT_OK, result);

@@ -46,8 +46,6 @@ public class VerseListActivity extends AppCompatActivity
 
         checkIfUpdateAndProcess();
 
-        new LoadVersesTask().execute();
-
         setupNotificationChannel();
         setupAlarm();
     }
@@ -67,6 +65,48 @@ public class VerseListActivity extends AppCompatActivity
             SharedPreferences.Editor valuesEditor = values.edit();
             valuesEditor.putInt(VERSION, currentVersion);
             valuesEditor.commit();
+        }
+    }
+
+    private void setupNotificationChannel(){
+        if (Build.VERSION.SDK_INT < 26)
+            return;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        String id = NOTIFICATION_CHANNEL;
+        CharSequence name = getString(R.string.app_name);
+        String description = getString(R.string.channel_description);
+        NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW);
+        mChannel.setDescription(description);
+        mChannel.enableLights(true);
+        mChannel.setLightColor(Color.WHITE);
+        mNotificationManager.createNotificationChannel(mChannel);
+    }
+
+    private void setupAlarm(){
+        if( getSharedPreferences(SHARED_PREFS_TAG, 0).getBoolean(LEARNED_A_VERSE, false))
+            AlarmManager.setAlarm(getApplicationContext());
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        new LoadVersesTask().execute();
+    }
+
+    private class LoadVersesTask extends AsyncTask<Void, Void, List<Verse>>{
+        @Override
+        public List<Verse> doInBackground(Void... v){
+            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().getAll();
+        }
+
+        @Override
+        public void onPostExecute(List<Verse> verses){
+            verseArrayAdapter = new VerseArrayAdapter(VerseListActivity.this, verses);
+            ListView verseListView = (ListView) findViewById(R.id.verse_list_view);
+            verseListView.setAdapter(verseArrayAdapter);
+            if (verses.size() == 0)
+                launchAddVerseActivity();
         }
     }
 
@@ -101,41 +141,6 @@ public class VerseListActivity extends AppCompatActivity
     private void launchAddVerseActivity(){
         Intent intent = new Intent(this, AddVerseActivity.class);
         startActivityForResult(intent, ADD_VERSE_CODE);
-    }
-
-    private class LoadVersesTask extends AsyncTask<Void, Void, List<Verse>>{
-        @Override
-        public List<Verse> doInBackground(Void... v){
-            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().getAll();
-        }
-
-        @Override
-        public void onPostExecute(List<Verse> verses){
-            verseArrayAdapter = new VerseArrayAdapter(VerseListActivity.this, verses);
-            ListView verseListView = (ListView) findViewById(R.id.verse_list_view);
-            verseListView.setAdapter(verseArrayAdapter);
-            if (verses.size() == 0)
-                launchAddVerseActivity();
-        }
-    }
-
-    private void setupNotificationChannel(){
-        if (Build.VERSION.SDK_INT < 26)
-            return;
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        String id = NOTIFICATION_CHANNEL;
-        CharSequence name = getString(R.string.app_name);
-        String description = getString(R.string.channel_description);
-        NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW);
-        mChannel.setDescription(description);
-        mChannel.enableLights(true);
-        mChannel.setLightColor(Color.WHITE);
-        mNotificationManager.createNotificationChannel(mChannel);
-    }
-
-    private void setupAlarm(){
-        if( getSharedPreferences(SHARED_PREFS_TAG, 0).getBoolean(LEARNED_A_VERSE, false))
-            AlarmManager.setAlarm(getApplicationContext());
     }
 
     public void clickLearn(View button) {
@@ -232,17 +237,9 @@ public class VerseListActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK) {
             switch(requestCode){
-                case ADD_VERSE_CODE:
-                    int newVerseId = data.getIntExtra(AddVerseActivity.VERSE_ID, -1);
-                    new AddVerseTask().execute(newVerseId);
-                    break;
                 case LEARN_VERSE_CODE:
                     int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
                     markLearned(verseId);
-                    break;
-                case EDIT_VERSE_CODE:
-                    verseId = data.getIntExtra(AddVerseActivity.VERSE_ID, -1);
-                    new EditVerseTask().execute(verseId);
                     break;
             }
         }
@@ -277,24 +274,24 @@ public class VerseListActivity extends AppCompatActivity
             super.onBackPressed();
     }
 
-    private class AddVerseTask extends AsyncTask<Integer, Void, List<Verse>>{
-        @Override
-        public List<Verse> doInBackground(Integer... ids){
-            int[] verse_ids = new int[ids.length];
-            for(int i=0; i<ids.length; ++i)
-                verse_ids[i] = ids[i];
-
-            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().getById(verse_ids);
-        }
-
-        @Override
-        public void onPostExecute(List<Verse> newVerses){
-            for(Verse v : newVerses) {
-                verseArrayAdapter.insert(v);
-                Toast.makeText(VerseListActivity.this, getString(R.string.verse_added, v.getReference()), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
+//    private class AddVerseTask extends AsyncTask<Integer, Void, List<Verse>>{
+//        @Override
+//        public List<Verse> doInBackground(Integer... ids){
+//            int[] verse_ids = new int[ids.length];
+//            for(int i=0; i<ids.length; ++i)
+//                verse_ids[i] = ids[i];
+//
+//            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().getById(verse_ids);
+//        }
+//
+//        @Override
+//        public void onPostExecute(List<Verse> newVerses){
+//            for(Verse v : newVerses) {
+//                verseArrayAdapter.insert(v);
+//                Toast.makeText(VerseListActivity.this, getString(R.string.verse_added, v.getReference()), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     private class MarkVerseLearnedUnlearnedTask extends AsyncTask<Integer, Void, Void>{
 
@@ -314,18 +311,18 @@ public class VerseListActivity extends AppCompatActivity
         }
     }
 
-    private class EditVerseTask extends AsyncTask<Integer, Void, Verse>{
-        @Override
-        public Verse doInBackground(Integer... ids){
-            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().find(ids[0]);
-        }
-
-        @Override
-        public void onPostExecute(Verse verse){
-            verseArrayAdapter.update(verse);
-            Toast.makeText(VerseListActivity.this, getString(R.string.verse_updated, verse.getReference()), Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private class EditVerseTask extends AsyncTask<Integer, Void, Verse>{
+//        @Override
+//        public Verse doInBackground(Integer... ids){
+//            return AppDatabase.getDatabase(VerseListActivity.this).verseDao().find(ids[0]);
+//        }
+//
+//        @Override
+//        public void onPostExecute(Verse verse){
+//            verseArrayAdapter.update(verse);
+//            Toast.makeText(VerseListActivity.this, getString(R.string.verse_updated, verse.getReference()), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     private class DeleteVerseTask extends AsyncTask<Verse, Void, Verse>{
         @Override

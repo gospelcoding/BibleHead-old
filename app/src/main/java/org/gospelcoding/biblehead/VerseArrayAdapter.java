@@ -2,7 +2,6 @@ package org.gospelcoding.biblehead;
 
         import android.content.Context;
         import android.support.annotation.Nullable;
-        import android.support.constraint.ConstraintLayout;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -33,10 +32,12 @@ public class VerseArrayAdapter extends ArrayAdapter<Verse> {
         ((TextView) verseView.findViewById(R.id.verse_reference)).setText(verse.getReference());
         if (verse.learned) {
             ((Button) verseView.findViewById(R.id.learn_verse)).setVisibility(View.INVISIBLE);
-            ProgressBar bar = verseView.findViewById(R.id.progress);
-            bar.setVisibility(View.VISIBLE);
             int progress = 2 * verse.getProgress();
-            bar.getLayoutParams().width = progress;
+            if( progress > 0) {
+                ProgressBar bar = verseView.findViewById(R.id.progress);
+                bar.setVisibility(View.VISIBLE);
+                bar.getLayoutParams().width = progress;
+            }
         }
         return verseView;
     }
