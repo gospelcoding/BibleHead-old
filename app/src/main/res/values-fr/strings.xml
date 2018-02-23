@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bible Head</string>
+    <string name="notification_title">Revue Quotidienne</string>
+    <string name="notification_text">Revoir vos versets mémorisés</string>
+    <string name="learn">Mémoriser</string>
+    <string name="channel_description">Rappel de revoir les versets mémorisés</string>
+    <string name="edit">Modifier</string>
+    <string name="review">Revoir</string>
+    <string name="verse_added">%1$s ajouté</string>
+    <string name="mark_not_learned">Marquer «Pas mémorisé»</string>
+    <string name="verse_updated">%1$s mis à jour</string>
+    <string name="verse_deleted">%1$s supprimé</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirm_delete">Confirmez que vous voulez enlever %1$s de vos versets.</string>
+
+    <!-- Add Verse Activity -->
+    <string name="add_verse">Ajouter un verset</string>
+    <string name="multiverse">Plus long qu\'un verset</string>
+    <string name="save_verse">Enregistrer</string>
+    <string name="verse_text_not_blank">Texte du verset ne peut pas être vide.</string>
+    <string name="end_verse_after_start_verse">La fin du passage doit être après le commencement.</string>
+    <string name="valid_chapter_numbers">Les numéros des chapitres doivent être entre 1 et 150.</string>
+    <string name="valid_verse_numbers">Les numéros des versets doivent être entre 1 et 200.</string>
+    <string name="verse_text_hint">Coller le texte du verset ici.</string>
+
+    <!-- Learn Activity -->
+    <string name="mark_learned">✔ Mémorisé</string>
+    <string name="hide_words">Jouer cache-mots</string>
+    <string name="build_verse">Jouer mots mélangés</string>
+    <string name="go_back">Retourner</string>
+
+    <!-- Review Activity -->
+    <string name="x_of_y">%1$d de %2$d</string>
+    <string name="loading">Chargement...</string>
+    <string name="no_learned_verses">Aucun verset est marqué comme mémorisé. Après avoir marqué quelques versets comme mémorisé vous pouvez les revoir.</string>
+
+    <string-array name="bible_books">
+        <item>Genèse</item>
+        <item>Exode</item>
+        <item>Lévitique</item>
+        <item>Nombres</item>
+        <item>Deutéronome</item>
+        <item>Josué</item>
+        <item>Juges</item>
+        <item>Ruth</item>
+        <item>1 Samuel</item>
+        <item>2 Samuel</item>
+        <item>1 Rois</item>
+        <item>2 Rois</item>
+        <item>1 Chroniques</item>
+        <item>2 Chroniques</item>
+        <item>Esdras</item>
+        <item>Néhémie</item>
+        <item>Esther</item>
+        <item>Job</item>
+        <item>Psaumes</item>
+        <item>Proverbes</item>
+        <item>Ecclésiaste</item>
+        <item>Cantique des Cantiques</item>
+        <item>Ésaïe</item>
+        <item>Jérémie</item>
+        <item>Lamentations</item>
+        <item>Ézéchiel</item>
+        <item>Daniel</item>
+        <item>Osée</item>
+        <item>Joël</item>
+        <item>Amos</item>
+        <item>Abdias</item>
+        <item>Jonas</item>
+        <item>Michée</item>
+        <item>Nahum</item>
+        <item>Habacuc</item>
+        <item>Sophonie</item>
+        <item>Aggée</item>
+        <item>Zacharie</item>
+        <item>Malachie</item>
+        <item>Matthieu</item>
+        <item>Marc</item>
+        <item>Luc</item>
+        <item>Jean</item>
+        <item>Actes</item>
+        <item>Romains</item>
+        <item>1 Corinthiens</item>
+        <item>2 Corinthiens</item>
+        <item>Galates</item>
+        <item>Éphésiens</item>
+        <item>Philippiens</item>
+        <item>Colossiens</item>
+        <item>1 Thessaloniciens</item>
+        <item>2 Thessaloniciens</item>
+        <item>1 Timothée</item>
+        <item>2 Timothée</item>
+        <item>Tite</item>
+        <item>Philémon</item>
+        <item>Hébreux</item>
+        <item>Jacques</item>
+        <item>1 Pierre</item>
+        <item>2 Pierre</item>
+        <item>1 Jean</item>
+        <item>2 Jean</item>
+        <item>3 Jean</item>
+        <item>Jude</item>
+        <item>Apocalypse</item>
+    </string-array>
+</resources>

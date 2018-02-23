@@ -12,7 +12,6 @@
     <string name="mark_not_learned">Mark Not Learned</string>
     <string name="verse_updated">%1$s updated</string>
     <string name="verse_deleted">%1$s deleted</string>
-    <string name="delete_x">X</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="confirm_delete">Are you sure you want to remove %1$s from your verses?</string>
@@ -29,9 +28,6 @@
 
     <!-- Learn Activity -->
     <string name="mark_learned">✔ Learned</string>
-    <string name="rewind">&lt;&lt;</string>
-    <string name="forward">&gt;&gt;</string>
-    <string name="fast_forward">&gt;&gt;&gt;</string>
     <string name="hide_words">Play Hide Words</string>
     <string name="build_verse">Play Build Verse</string>
     <string name="go_back">Back</string>
