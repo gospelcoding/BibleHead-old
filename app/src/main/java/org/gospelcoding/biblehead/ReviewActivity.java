@@ -127,6 +127,7 @@ public class ReviewActivity extends Activity {
 
     public void clickShowAll(View v){
         verseTextView.append(verseTextRemainder);
+        scrollToBottom();
         completeReview();
     }
 
