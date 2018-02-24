@@ -35,7 +35,7 @@ public class HideWordActivity extends LearnActivity {
         setContentView(R.layout.activity_learn_hideword);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setPeekButtonListener();
+        setButtonListeners();
 
         new LoadVerseTask().execute(); //Loads verse and calls buildGame()
     }
@@ -77,7 +77,7 @@ public class HideWordActivity extends LearnActivity {
         return new String(dashes);
     }
 
-    private void setPeekButtonListener(){
+    private void setButtonListeners(){
         ((ImageButton) findViewById(R.id.peek)).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -92,6 +92,13 @@ public class HideWordActivity extends LearnActivity {
                     default:
                         return false;
                 }
+            }
+        });
+
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickReset(view);
             }
         });
     }

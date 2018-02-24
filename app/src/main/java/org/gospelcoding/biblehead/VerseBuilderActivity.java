@@ -39,6 +39,12 @@ public class VerseBuilderActivity extends LearnActivity {
         setContentView(R.layout.activity_learn_builder);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickReset(view);
+            }
+        });
 
         new LoadVerseTask().execute();
     }
