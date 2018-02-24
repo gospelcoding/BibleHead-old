@@ -2,6 +2,7 @@ package org.gospelcoding.biblehead;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +17,9 @@ public abstract class LearnActivity extends AppCompatActivity {
     public static final String LEARN_GAME = "learn_game";
     public static final String HIDE_WORDS = "hide_words";
     public static final String BUILD_VERSE = "build_verse";
+    private static final String VERSE_TEXT = "verseText";
 
-    protected Verse verse;
+    protected String verseText;
 
     // Word characters optionally including one apostrophe or hyphen
     protected static final Pattern wordPattern = Pattern.compile("\\w+(['’-]\\w+)?");
@@ -30,6 +32,19 @@ public abstract class LearnActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+
+        savedInstanceState.putString(VERSE_TEXT, verseText);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        verseText = savedInstanceState.getString(VERSE_TEXT);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()){
             case R.id.mark_learned:
@@ -37,7 +52,7 @@ public abstract class LearnActivity extends AppCompatActivity {
                 break;
             case R.id.switch_game:
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra(VERSE_ID, verse.id);
+                resultIntent.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
                 resultIntent.putExtra(LEARN_GAME, switchGame());
                 setResult(RESULT_REDIRECT, resultIntent);
                 finish();
@@ -60,8 +75,8 @@ public abstract class LearnActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onPostExecute(Verse v){
-            verse = v;
+        public void onPostExecute(Verse verse){
+            verseText = verse.text;
             buildGame(verse);
         }
     }
@@ -74,7 +89,7 @@ public abstract class LearnActivity extends AppCompatActivity {
 
     protected void markLearned(){
         Intent result = new Intent();
-        result.putExtra(VERSE_ID, verse.id);
+        result.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
         setResult(RESULT_OK, result);
         finish();
     }

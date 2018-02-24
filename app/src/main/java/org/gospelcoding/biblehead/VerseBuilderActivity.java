@@ -111,7 +111,7 @@ public class VerseBuilderActivity extends LearnActivity {
 
     private void checkGuess(String guess, View button){
         if (verseWords.get(position).word.equals(guess)){
-            String text = verse.text.substring(0, indices.get(position));
+            String text = verseText.substring(0, indices.get(position));
             ((TextView) findViewById(R.id.verse_text)).setText(text);
             final ScrollView scroll = findViewById(R.id.scroll_verse_text);
             scroll.post(new Runnable() {
