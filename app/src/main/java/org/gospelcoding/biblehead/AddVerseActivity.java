@@ -1,9 +1,10 @@
 package org.gospelcoding.biblehead;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class AddVerseActivity extends Activity {
+public class AddVerseActivity extends AppCompatActivity {
 
     public static final String EDIT_MODE = "edit_mode";
     public static final String VERSE_ID = "verse_id";

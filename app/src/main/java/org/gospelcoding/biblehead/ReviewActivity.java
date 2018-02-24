@@ -1,8 +1,8 @@
 package org.gospelcoding.biblehead;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReviewActivity extends Activity {
+public class ReviewActivity extends AppCompatActivity {
 
     // One or more word characters
     // zero or more anything, non-greedy
