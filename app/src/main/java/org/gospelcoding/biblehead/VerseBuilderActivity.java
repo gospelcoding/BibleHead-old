@@ -20,21 +20,12 @@ public class VerseBuilderActivity extends LearnActivity {
 
     private static int DISPLAYED_WORDS = 12;
 
-    private static final String VERSE_WORDS = "verseWords";
-    private static final String SHUFFLED_WORDS = "shuffledWords";
-    private static final String INDICES = "indices";
-    private static final String POSITION = "position";
-    private static final String RESET = "reset";
-    private static final String BUTTON_WORDS = "buttonWords";
-    private static final String BUTTON_VISIBILITIES = "buttonVisibilities";
-
     ContextThemeWrapper buttonContext = new ContextThemeWrapper(this, R.style.AppTheme_BlueButton);
 
     private ArrayList<String> verseWords;
     private ArrayList<String> shuffledWords;
     private ArrayList<Integer> indices;
     private int position;
-    private boolean reset = false;
 
     @Override
     protected int switchGameTitle(){ return R.string.hide_words; }
@@ -55,57 +46,7 @@ public class VerseBuilderActivity extends LearnActivity {
             }
         });
 
-        if (savedInstanceState == null || savedInstanceState.getBoolean(RESET))
-            new LoadVerseTask().execute();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        if (reset)
-            savedInstanceState.putBoolean(RESET, true);
-        else {
-            savedInstanceState.putStringArrayList(VERSE_WORDS, verseWords);
-            savedInstanceState.putStringArrayList(SHUFFLED_WORDS, shuffledWords);
-            savedInstanceState.putIntegerArrayList(INDICES, indices);
-            savedInstanceState.putInt(POSITION, position);
-            ArrayList<String> buttonWords = new ArrayList(DISPLAYED_WORDS);
-            ArrayList<Integer> buttonVisibilities = new ArrayList(DISPLAYED_WORDS);
-            FlexboxLayout wordContainer = findViewById(R.id.word_container);
-            for (int i = 0; i < wordContainer.getChildCount(); ++i) {
-                Button button = (Button) wordContainer.getChildAt(i);
-                buttonWords.add((String) button.getText());
-                buttonVisibilities.add(button.getVisibility());
-            }
-            savedInstanceState.putStringArrayList(BUTTON_WORDS, buttonWords);
-            savedInstanceState.putIntegerArrayList(BUTTON_VISIBILITIES, buttonVisibilities);
-        }
-
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState){
-        super.onRestoreInstanceState(savedInstanceState);
-        if( !savedInstanceState.getBoolean(RESET)) {
-            verseWords = savedInstanceState.getStringArrayList(VERSE_WORDS);
-            shuffledWords = savedInstanceState.getStringArrayList(SHUFFLED_WORDS);
-            indices = savedInstanceState.getIntegerArrayList(INDICES);
-            position = savedInstanceState.getInt(POSITION);
-
-            ((TextView) findViewById(R.id.big_verse_text)).setText(verseText);
-            if (position == verseWords.size())
-                finishGame();
-            else {
-                if (position > 0)
-                    ((TextView) findViewById(R.id.verse_text)).setText(verseText.substring(0, indices.get(position - 1)));
-                ArrayList<String> buttonWords = savedInstanceState.getStringArrayList(BUTTON_WORDS);
-                ArrayList<Integer> buttonVisibilities = savedInstanceState.getIntegerArrayList(BUTTON_VISIBILITIES);
-                FlexboxLayout wordContainer = findViewById(R.id.word_container);
-                for (int i = 0; i < buttonWords.size(); ++i)
-                    addButton(wordContainer, i, buttonWords.get(i), buttonVisibilities.get(i));
-
-            }
-        }
+        new LoadVerseTask().execute();
     }
 
     protected void buildGame(Verse verse){
@@ -155,13 +96,8 @@ public class VerseBuilderActivity extends LearnActivity {
     }
 
     private void addButton(FlexboxLayout wordContainer, int index, String word){
-        addButton(wordContainer, index, word, View.VISIBLE);
-    }
-
-    private void addButton(FlexboxLayout wordContainer, int index, String word, int visibility){
         Button wordButton = new Button(buttonContext);
         wordButton.setText(word);
-        wordButton.setVisibility(visibility);
         wordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
@@ -220,7 +156,6 @@ public class VerseBuilderActivity extends LearnActivity {
     }
 
     public void clickReset(View v){
-        reset = true;
         recreate();
         // All this is shot because I can't seem to reset the scrolling verse text view
 //        v.setVisibility(View.INVISIBLE);

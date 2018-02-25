@@ -16,11 +16,6 @@ public class HideWordActivity extends LearnActivity {
 
     private static final int DEFAULT_STEP = 4;
 
-    private static final String CURRENT_TEXT = "currentText";
-    private static final String WORD_INDICES = "wordIndices";
-    private static final String POSITION = "position";
-    private static final String FINISHED_GAME = "finishedGame";
-
     private String currentText;
     private List<int[]> wordIndices;
     private int position=0;
@@ -39,33 +34,7 @@ public class HideWordActivity extends LearnActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setButtonListeners();
-        if(savedInstanceState == null)
-            new LoadVerseTask().execute(); //Loads verse and calls buildGame()
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-
-        savedInstanceState.putString(CURRENT_TEXT, currentText);
-        savedInstanceState.putIntegerArrayList(WORD_INDICES, flattenWordIndices(wordIndices));
-        savedInstanceState.putInt(POSITION, position);
-        savedInstanceState.putBoolean(FINISHED_GAME, finishedGame);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState){
-        super.onRestoreInstanceState(savedInstanceState);
-        currentText = savedInstanceState.getString(CURRENT_TEXT);
-        wordIndices = inflateWordIndices(savedInstanceState.getIntegerArrayList(WORD_INDICES));
-        position = savedInstanceState.getInt(POSITION);
-        finishedGame = savedInstanceState.getBoolean(FINISHED_GAME);
-
-        ((TextView) findViewById(R.id.verse_text)).setText(currentText);
-        if (position > 0)
-            findViewById(R.id.peek).setVisibility(View.VISIBLE);
-        if (finishedGame)
-            showHideButtons(true);
+        new LoadVerseTask().execute(); //Loads verse and calls buildGame()
     }
 
     private ArrayList<Integer> flattenWordIndices(List<int[]> wordIndices){
