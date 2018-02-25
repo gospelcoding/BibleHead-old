@@ -39,9 +39,8 @@ public class HideWordActivity extends LearnActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setButtonListeners();
-        if(savedInstanceState == null) {
+        if(savedInstanceState == null)
             new LoadVerseTask().execute(); //Loads verse and calls buildGame()
-        }
     }
 
     @Override
