@@ -26,27 +26,21 @@ public abstract class LearnActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.learn_activity_menu, menu);
-        menu.findItem(R.id.switch_game).setTitle(switchGameMenuItem());
+        menu.findItem(R.id.switch_game).setIcon(switchGameMenuIcon());
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()){
-            case R.id.mark_learned:
-                markLearned();
-                break;
             case R.id.switch_game:
                 switchGame();
-                break;
-            case R.id.go_back:
-                finish();
                 break;
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
-    protected abstract int switchGameMenuItem();
+    protected abstract int switchGameMenuIcon();
     protected abstract String switchGameName();
 
     protected void switchGame(){

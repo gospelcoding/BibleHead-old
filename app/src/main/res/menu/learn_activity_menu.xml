@@ -3,17 +3,9 @@
     xmlns:appcompat="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/mark_learned"
-        android:title="@string/mark_learned"
-        appcompat:showAsAction="never" />
-
-    <item
         android:id="@+id/switch_game"
         android:title="Switch game"
-        appcompat:showAsAction="never" />
+        android:icon="@drawable/ic_cards"
+        appcompat:showAsAction="always" />
 
-    <item
-        android:id="@+id/go_back"
-        android:title="@string/go_back"
-        appcompat:showAsAction="never" />
 </menu>

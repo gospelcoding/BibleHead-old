@@ -22,7 +22,7 @@ public class HideWordActivity extends LearnActivity {
     private boolean finishedGame = false;
 
     @Override
-    protected int switchGameMenuItem(){ return R.string.build_verse; }
+    protected int switchGameMenuIcon(){ return R.drawable.ic_cards; }
 
     @Override
     protected String switchGameName(){ return BUILD_VERSE; }

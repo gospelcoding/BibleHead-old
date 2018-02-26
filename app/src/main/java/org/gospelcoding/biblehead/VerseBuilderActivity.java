@@ -28,7 +28,7 @@ public class VerseBuilderActivity extends LearnActivity {
     private int position;
 
     @Override
-    protected int switchGameMenuItem(){ return R.string.hide_words; }
+    protected int switchGameMenuIcon(){ return R.drawable.ic_hidewords; }
 
     @Override
     protected String switchGameName(){ return HIDE_WORDS; }
