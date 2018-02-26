@@ -153,7 +153,7 @@ public class VerseListActivity extends AppCompatActivity
         Class activity = (game.equals(LearnActivity.HIDE_WORDS)) ? HideWordActivity.class : VerseBuilderActivity.class;
         Intent intent = new Intent(this, activity);
         intent.putExtra(LearnActivity.VERSE_ID, verseId);
-        startActivityForResult(intent, LEARN_VERSE_CODE);
+        startActivity(intent);
     }
 
     public void clickShowVerseMenu(View button){
@@ -233,25 +233,17 @@ public class VerseListActivity extends AppCompatActivity
         new DeleteVerseTask().execute(verse);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (resultCode == RESULT_OK) {
-            switch(requestCode){
-                case LEARN_VERSE_CODE:
-                    int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
-                    markLearned(verseId);
-                    break;
-            }
-        }
-        else if(resultCode == LearnActivity.RESULT_REDIRECT){
-            int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
-            String game = data.getStringExtra(LearnActivity.LEARN_GAME);
-            SharedPreferences.Editor valuesEditor = getSharedPreferences(SHARED_PREFS_TAG, 0).edit();
-            valuesEditor.putString(LearnActivity.LEARN_GAME, game);
-            valuesEditor.commit();
-            learn(verseId);
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data){
+//        else if(resultCode == LearnActivity.RESULT_REDIRECT){
+//            int verseId = data.getIntExtra(LearnActivity.VERSE_ID, -1);
+//            String game = data.getStringExtra(LearnActivity.LEARN_GAME);
+//            SharedPreferences.Editor valuesEditor = getSharedPreferences(SHARED_PREFS_TAG, 0).edit();
+//            valuesEditor.putString(LearnActivity.LEARN_GAME, game);
+//            valuesEditor.commit();
+//            learn(verseId);
+//        }
+//    }
 
     public void clickShowText(View view){
         int verseId = (Integer) ((View) view.getParent()).getTag();

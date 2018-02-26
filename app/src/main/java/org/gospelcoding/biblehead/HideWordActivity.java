@@ -22,10 +22,10 @@ public class HideWordActivity extends LearnActivity {
     private boolean finishedGame = false;
 
     @Override
-    protected int switchGameTitle(){ return R.string.build_verse; }
+    protected int switchGameMenuItem(){ return R.string.build_verse; }
 
     @Override
-    protected String switchGame(){ return BUILD_VERSE; }
+    protected String switchGameName(){ return BUILD_VERSE; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

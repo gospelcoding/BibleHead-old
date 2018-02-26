@@ -1,6 +1,7 @@
 package org.gospelcoding.biblehead;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -25,7 +26,7 @@ public abstract class LearnActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.learn_activity_menu, menu);
-        menu.findItem(R.id.switch_game).setTitle(switchGameTitle());
+        menu.findItem(R.id.switch_game).setTitle(switchGameMenuItem());
         return true;
     }
 
@@ -36,11 +37,7 @@ public abstract class LearnActivity extends AppCompatActivity {
                 markLearned();
                 break;
             case R.id.switch_game:
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
-                resultIntent.putExtra(LEARN_GAME, switchGame());
-                setResult(RESULT_REDIRECT, resultIntent);
-                finish();
+                switchGame();
                 break;
             case R.id.go_back:
                 finish();
@@ -49,8 +46,19 @@ public abstract class LearnActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    protected abstract int switchGameTitle();
-    protected abstract String switchGame();
+    protected abstract int switchGameMenuItem();
+    protected abstract String switchGameName();
+
+    protected void switchGame(){
+        SharedPreferences.Editor valuesEditor = getSharedPreferences(VerseListActivity.SHARED_PREFS_TAG, 0).edit();
+        valuesEditor.putString(LearnActivity.LEARN_GAME, switchGameName());
+        valuesEditor.commit();
+        Class activity = (switchGameName()==HIDE_WORDS) ? HideWordActivity.class : VerseBuilderActivity.class;
+        Intent intent = new Intent(this, activity);
+        intent.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
+        startActivity(intent);
+        finish();
+    }
 
     protected class LoadVerseTask extends AsyncTask<Void, Void, Verse>{
         @Override
@@ -73,9 +81,26 @@ public abstract class LearnActivity extends AppCompatActivity {
     }
 
     protected void markLearned(){
-        Intent result = new Intent();
-        result.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
-        setResult(RESULT_OK, result);
-        finish();
+//        Intent result = new Intent();
+//        result.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
+//        setResult(RESULT_OK, result);
+//        finish();
+        new MarkLearnedTask().execute(getIntent().getIntExtra(VERSE_ID, -1));
+    }
+
+    private class MarkLearnedTask extends AsyncTask<Integer, Void, Void>{
+        @Override
+        public Void doInBackground(Integer... verseIds){
+            AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+            Verse verse = db.verseDao().find(verseIds[0]);
+            verse.toggleLearned(true);
+            db.verseDao().update(verse);
+            return null;
+        }
+
+        @Override
+        public void onPostExecute(Void v){
+            finish();
+        }
     }
 }

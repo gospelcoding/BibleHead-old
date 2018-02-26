@@ -28,10 +28,10 @@ public class VerseBuilderActivity extends LearnActivity {
     private int position;
 
     @Override
-    protected int switchGameTitle(){ return R.string.hide_words; }
+    protected int switchGameMenuItem(){ return R.string.hide_words; }
 
     @Override
-    protected String switchGame(){ return HIDE_WORDS; }
+    protected String switchGameName(){ return HIDE_WORDS; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

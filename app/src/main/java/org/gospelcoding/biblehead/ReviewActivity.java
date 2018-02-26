@@ -8,6 +8,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ public class ReviewActivity extends AppCompatActivity {
     private static final Pattern NEXT_PHRASE = Pattern.compile("\\w+.*?[,;.?!\n]\\W*");
 
     private List<Verse> reviewVerses;
-    private int currentVerseIndex;
+    private int currentVerseIndex = 0;
     private TextView verseTextView;
     private String verseTextRemainder;
 
@@ -31,14 +32,32 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         verseTextView = (TextView) findViewById(R.id.verse_text);
+        ArrayList<Integer> verseIds = null;
+        if (savedInstanceState != null){
+            currentVerseIndex = savedInstanceState.getInt("currentVerseIndex");
+            verseIds = savedInstanceState.getIntegerArrayList("verseIds");
+        }
 
-        new ReviewVerseLoader().execute();
+        new ReviewVerseLoader(verseIds).execute();
     }
 
     private class ReviewVerseLoader extends AsyncTask<Void, Void, List<Verse>>{
+        private ArrayList<Integer> verseIds;
+
+        public ReviewVerseLoader(ArrayList<Integer> verseIds){
+            this.verseIds = verseIds;
+        }
+
         @Override
         public List<Verse> doInBackground(Void... v){
-            return AppDatabase.getDatabase(ReviewActivity.this).verseDao().getVersesForReview(5);
+            VerseDao verseDao = AppDatabase.getDatabase(getApplicationContext()).verseDao();
+            if (verseIds == null)
+                return verseDao.getVersesForReview(5);
+            ArrayList<Verse> verses = new ArrayList(verseIds.size());
+            for(int verseId : verseIds){
+                verses.add(verseDao.find(verseId));
+            }
+            return verses;
         }
 
         @Override
@@ -49,10 +68,19 @@ public class ReviewActivity extends AppCompatActivity {
             }
             else {
                 ReviewActivity.this.reviewVerses = reviewVerses;
-                currentVerseIndex = 0;
                 reviewNextVerse();
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        ArrayList<Integer> verseIds = new ArrayList(reviewVerses.size());
+        for(Verse verse : reviewVerses)
+            verseIds.add(verse.id);
+        savedInstanceState.putIntegerArrayList("verseIds", verseIds);
+        savedInstanceState.putInt("currentVerseIndex", currentVerseIndex);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     private void reviewNextVerse(){
