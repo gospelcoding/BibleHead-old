@@ -40,7 +40,8 @@
             android:background="@color/white"
             android:text=""
             android:fontFamily="monospace"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:breakStrategy="simple"/>
 
     </ScrollView>
 
