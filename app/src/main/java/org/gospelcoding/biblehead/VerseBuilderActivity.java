@@ -39,14 +39,24 @@ public class VerseBuilderActivity extends LearnActivity {
         setContentView(R.layout.activity_learn_builder);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setButtonListeners();
+
+        new LoadVerseTask().execute();
+    }
+
+    private void setButtonListeners(){
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickReset(view);
             }
         });
-
-        new LoadVerseTask().execute();
+        findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
     }
 
     protected void buildGame(Verse verse){
@@ -150,6 +160,7 @@ public class VerseBuilderActivity extends LearnActivity {
 
     private void finishGame(){
         findViewById(R.id.reset).setVisibility(View.VISIBLE);
+        findViewById(R.id.home).setVisibility(View.VISIBLE);
         findViewById(R.id.big_mark_learned).setVisibility(View.VISIBLE);
         findViewById(R.id.big_verse_text).setVisibility(View.VISIBLE);
         findViewById(R.id.word_container).setVisibility(View.INVISIBLE);

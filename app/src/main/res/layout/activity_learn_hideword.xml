@@ -83,9 +83,20 @@
         android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/big_mark_learned"
+        app:layout_constraintEnd_toStartOf="@id/home"
         android:theme="@style/AppTheme.BlueMainButton"
         app:srcCompat="@drawable/ic_replay_black_24dp"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/home"
+        android:layout_width="0dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/reset"
+        app:layout_constraintEnd_toStartOf="@id/big_mark_learned"
+        android:theme="@style/AppTheme.BlueMainButton"
+        app:srcCompat="@drawable/ic_home_black_24dp"
         android:visibility="invisible"/>
 
     <Button
@@ -93,7 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/reset"
+        app:layout_constraintStart_toEndOf="@id/home"
         app:layout_constraintEnd_toEndOf="parent"
         android:theme="@style/AppTheme.GreenMainButton"
         android:textStyle="normal"

@@ -123,6 +123,13 @@ public class HideWordActivity extends LearnActivity {
                 clickReset(view);
             }
         });
+
+        findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
     }
 
 
@@ -146,6 +153,7 @@ public class HideWordActivity extends LearnActivity {
     private void showHideButtons(boolean showResetAndLearned){
         int visibility = showResetAndLearned ? View.VISIBLE : View.INVISIBLE;
         findViewById(R.id.reset).setVisibility(visibility);
+        findViewById(R.id.home).setVisibility(visibility);
         findViewById(R.id.big_mark_learned).setVisibility(visibility);
 
         visibility = showResetAndLearned ? View.INVISIBLE : View.VISIBLE;
