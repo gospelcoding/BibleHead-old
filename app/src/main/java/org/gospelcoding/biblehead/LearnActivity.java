@@ -85,6 +85,10 @@ public abstract class LearnActivity extends AppCompatActivity {
 //        result.putExtra(VERSE_ID, getIntent().getIntExtra(VERSE_ID, -1));
 //        setResult(RESULT_OK, result);
 //        finish();
+        SharedPreferences.Editor valuesEditor = getSharedPreferences(VerseListActivity.SHARED_PREFS_TAG, 0).edit();
+        valuesEditor.putBoolean(VerseListActivity.LEARNED_A_VERSE, true);
+        valuesEditor.commit();
+
         new MarkLearnedTask().execute(getIntent().getIntExtra(VERSE_ID, -1));
     }
 

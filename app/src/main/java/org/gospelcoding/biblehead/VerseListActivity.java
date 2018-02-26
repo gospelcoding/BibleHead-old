@@ -47,7 +47,6 @@ public class VerseListActivity extends AppCompatActivity
         checkIfUpdateAndProcess();
 
         setupNotificationChannel();
-        setupAlarm();
     }
 
     private void setupUI(){
@@ -92,6 +91,7 @@ public class VerseListActivity extends AppCompatActivity
         super.onStart();
 
         new LoadVersesTask().execute();
+        setupAlarm();
     }
 
     private class LoadVersesTask extends AsyncTask<Void, Void, List<Verse>>{
