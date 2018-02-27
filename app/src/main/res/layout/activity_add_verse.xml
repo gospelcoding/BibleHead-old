@@ -62,8 +62,7 @@
         android:inputType="number"
         android:hint="1"
         android:textAlignment="viewEnd"
-        android:textSize="25sp"
-        android:nextFocusDown="@id/multiverse_check" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/dash"
