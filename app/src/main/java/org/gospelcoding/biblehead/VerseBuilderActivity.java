@@ -1,6 +1,8 @@
 package org.gospelcoding.biblehead;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
@@ -61,7 +63,6 @@ public class VerseBuilderActivity extends LearnActivity {
 
     protected void buildGame(Verse verse){
         setTitle(verse.getReference());
-        ((TextView) findViewById(R.id.big_verse_text)).setText(verse.text);
 
         verseWords = new ArrayList();
         indices = new ArrayList();
@@ -162,22 +163,18 @@ public class VerseBuilderActivity extends LearnActivity {
         findViewById(R.id.reset).setVisibility(View.VISIBLE);
         findViewById(R.id.home).setVisibility(View.VISIBLE);
         findViewById(R.id.big_mark_learned).setVisibility(View.VISIBLE);
-        findViewById(R.id.big_verse_text).setVisibility(View.VISIBLE);
         findViewById(R.id.word_container).setVisibility(View.INVISIBLE);
+        ((TextView) findViewById(R.id.verse_text)).setText(verseText);
+
+        // Make the Verse Text go down to the buttons
+        ConstraintLayout layout = findViewById(R.id.verse_builder_layout);
+        ConstraintSet constraints = new ConstraintSet();
+        constraints.clone(layout);
+        constraints.connect(R.id.scroll_verse_text, ConstraintSet.BOTTOM, R.id.reset, ConstraintSet.TOP);
+        constraints.applyTo(layout);
     }
 
     public void clickReset(View v){
         recreate();
-        // All this is shot because I can't seem to reset the scrolling verse text view
-//        v.setVisibility(View.INVISIBLE);
-//        findViewById(R.id.big_mark_learned).setVisibility(View.INVISIBLE);
-//        findViewById(R.id.big_verse_text).setVisibility(View.INVISIBLE);
-//        ((TextView) findViewById(R.id.verse_text)).setText("");
-//        ((HorizontalScrollView) findViewById(R.id.scroll_verse_text)).scrollTo(0, 0);
-//        position = 0;
-//        FlexboxLayout wordContainer = findViewById(R.id.word_container);
-//        for(int i=0; i<wordContainer.getChildCount(); ++i){
-//            wordContainer.getChildAt(i).setVisibility(View.VISIBLE);
-//        }
     }
 }
