@@ -1,5 +1,6 @@
 package org.gospelcoding.biblehead;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -248,13 +249,10 @@ public class VerseListActivity extends AppCompatActivity
     public void clickShowText(View view){
         int verseId = (Integer) ((View) view.getParent()).getTag();
         String text = verseArrayAdapter.find(verseId).text;
-        TextView verseText = findViewById(R.id.verse_text);
-        verseText.setText(text);
-        verseText.setVisibility(View.VISIBLE);
-    }
-
-    public void clickDismissVerseText(View verseText){
-        verseText.setVisibility(View.GONE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(text)
+                .setPositiveButton(R.string.ok, null);
+        builder.create().show();
     }
 
     @Override

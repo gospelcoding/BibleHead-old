@@ -101,4 +101,5 @@
         <item>Jude</item>
         <item>Apocalypse</item>
     </string-array>
+    <string name="ok">D\'accord</string>
 </resources>
