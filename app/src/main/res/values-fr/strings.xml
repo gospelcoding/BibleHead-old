@@ -27,9 +27,6 @@
 
     <!-- Learn Activity -->
     <string name="mark_learned">✔ Mémorisé</string>
-    <string name="hide_words">Jouer cache-mots</string>
-    <string name="build_verse">Jouer mots mélangés</string>
-    <string name="go_back">Retourner</string>
 
     <!-- Review Activity -->
     <string name="x_of_y">%1$d de %2$d</string>
