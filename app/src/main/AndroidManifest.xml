@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.gospelcoding.biblehead">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -23,20 +24,22 @@
         </activity>
         <activity
             android:name=".AddVerseActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ReviewActivity"
-            android:parentActivityName=".VerseListActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".VerseListActivity" />
         <activity
             android:name=".HideWordActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VerseBuilderActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VerseDownloadActivity" />
+
         <receiver
             android:name=".ReviewNotifier"
             android:exported="false">

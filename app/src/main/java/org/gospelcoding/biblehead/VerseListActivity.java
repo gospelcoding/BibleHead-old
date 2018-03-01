@@ -140,8 +140,10 @@ public class VerseListActivity extends AppCompatActivity
     }
 
     private void launchAddVerseActivity(){
-        Intent intent = new Intent(this, AddVerseActivity.class);
-        startActivityForResult(intent, ADD_VERSE_CODE);
+//        Intent intent = new Intent(this, AddVerseActivity.class);
+//        startActivityForResult(intent, ADD_VERSE_CODE);
+        Intent intent = new Intent(this, VerseDownloadActivity.class);
+        startActivity(intent);
     }
 
     public void clickLearn(View button) {
