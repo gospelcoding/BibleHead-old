@@ -93,6 +93,7 @@ public class VerseListActivity extends AppCompatActivity
 
         new LoadVersesTask().execute();
         setupAlarm();
+        invalidateOptionsMenu();
     }
 
     private class LoadVersesTask extends AsyncTask<Void, Void, List<Verse>>{
