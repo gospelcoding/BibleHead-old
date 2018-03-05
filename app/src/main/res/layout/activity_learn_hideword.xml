@@ -109,7 +109,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:theme="@style/AppTheme.GreenMainButton"
         android:textStyle="normal"
-        android:text="✔"
+        android:text="✔︎"
         android:onClick="clickMarkLearned"
         android:visibility="invisible"/>
 
