@@ -105,8 +105,10 @@ public class VerseListActivity extends AppCompatActivity
         @Override
         public void onPostExecute(List<Verse> verses){
             verseArrayAdapter = new VerseArrayAdapter(VerseListActivity.this, verses);
-            ListView verseListView = (ListView) findViewById(R.id.verse_list_view);
+            final ListView verseListView = (ListView) findViewById(R.id.verse_list_view);
+            final int scrollPosition = verseListView.getFirstVisiblePosition();
             verseListView.setAdapter(verseArrayAdapter);
+            verseListView.setSelectionFromTop(scrollPosition, 0);
             if (verses.size() == 0)
                 launchAddVerseActivity();
         }
