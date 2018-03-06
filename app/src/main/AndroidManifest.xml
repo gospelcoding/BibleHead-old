@@ -39,6 +39,7 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".VerseDownloadActivity" />
+        <activity android:name=".SettingsActivity" />
 
         <receiver
             android:name=".ReviewNotifier"

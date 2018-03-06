@@ -35,6 +35,11 @@
     <string name="loading">Loading...</string>
     <string name="no_learned_verses">No verses are marked as learned. Try the review again once some verses are learned.</string>
 
+    <!-- Preferences -->
+    <string name="settings">Settings</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="notification_pref_summary">Daily reminder to review verses</string>
+
     <string-array name="bible_books">
         <item>Genesis</item>
         <item>Exodus</item>

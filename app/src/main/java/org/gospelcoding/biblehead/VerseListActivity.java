@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -57,6 +58,8 @@ public class VerseListActivity extends AppCompatActivity
     }
 
     private void checkIfUpdateAndProcess(){
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
         SharedPreferences values = getSharedPreferences(SHARED_PREFS_TAG, 0);
         int lastVersion = values.getInt(VERSION, 0);
 
@@ -83,8 +86,7 @@ public class VerseListActivity extends AppCompatActivity
     }
 
     private void setupAlarm(){
-        if( getSharedPreferences(SHARED_PREFS_TAG, 0).getBoolean(LEARNED_A_VERSE, false))
-            AlarmManager.setAlarm(getApplicationContext());
+        AlarmManager.setAlarmIfNecessary(getApplicationContext());
     }
 
     @Override
@@ -130,6 +132,10 @@ public class VerseListActivity extends AppCompatActivity
                 break;
             case R.id.add_verse:
                 launchAddVerseActivity();
+                break;
+            case R.id.settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             default:
                 Log.e("BHUI", "Unexpected menuItem in VerseListActivity.onOptionsItemSelected");
