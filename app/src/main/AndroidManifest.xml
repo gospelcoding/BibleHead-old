@@ -40,6 +40,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".VerseDownloadActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".AddVersionActivity" />
 
         <receiver
             android:name=".ReviewNotifier"
