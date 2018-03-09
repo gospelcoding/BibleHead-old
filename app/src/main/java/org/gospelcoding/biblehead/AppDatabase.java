@@ -15,18 +15,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Database(entities = {Verse.class}, version = 3)
+@Database(entities = {Verse.class, BibleVersion.class}, version = 4)
 @TypeConverters({AppDatabase.Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase dbInstance;
 
     public abstract VerseDao verseDao();
+    public abstract BibleVersionDao bibleVersionDao();
 
     public static synchronized AppDatabase getDatabase(Context context){
         if (dbInstance == null)
             dbInstance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "biblehead")
-                             .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                             .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                              .build();
         return dbInstance;
     }
@@ -67,6 +68,13 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE verse ADD COLUMN learned INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE bibleversion(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, absId TEXT, name TEXT, abbreviation TEXT, lang TEXT, langName TEXT, copyright TEXT)");
         }
     };
 }

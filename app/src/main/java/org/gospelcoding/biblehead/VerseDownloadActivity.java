@@ -41,7 +41,7 @@ public class VerseDownloadActivity extends AppCompatActivity {
         fillLanguageSpinner();
     }
     private void fillLanguageSpinner(){
-        String url = "https://bibles.org/v2/versions.js";
+        String url = BiblesOrgRequest.url(BiblesOrgRequest.VERSIONS);
         BiblesOrgRequest request = new BiblesOrgRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

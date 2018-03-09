@@ -14,6 +14,10 @@ import java.util.Map;
 
 public class BiblesOrgRequest extends JsonObjectRequest {
 
+    public static final String BASE_URL = "https://bibles.org/v2/";
+    public static final String URL_SUFFIX = ".js";
+    public static final String VERSIONS = "versions";
+
     public BiblesOrgRequest(String url, Response.Listener listener){
         super(Request.Method.GET, url, null, listener, new Response.ErrorListener() {
             @Override
@@ -21,6 +25,10 @@ public class BiblesOrgRequest extends JsonObjectRequest {
                 Log.e("BH VerseDL", error.getMessage());
             }
         });
+    }
+
+    public static String url(String request){
+        return BASE_URL + request + URL_SUFFIX;
     }
 
     @Override

@@ -44,6 +44,11 @@
 
     <!-- AddVersions -->
     <string name="add_version">Add Version</string>
+    <string name="language">Language</string>
+    <string name="version">Version</string>
+    <string name="download_failure">Failed to download Bible versions from bibles.org.</string>
+    <string name="copyright">Copyright</string>
+    <string name="go_back">Go back</string>
 
     <string-array name="bible_books">
         <item>Genesis</item>
