@@ -6,8 +6,8 @@ android {
         applicationId "org.gospelcoding.biblehead"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 106
-        versionName "1.6"
+        versionCode 107
+        versionName "1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
