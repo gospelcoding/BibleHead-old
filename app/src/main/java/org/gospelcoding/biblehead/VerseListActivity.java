@@ -258,15 +258,6 @@ public class VerseListActivity extends AppCompatActivity
         builder.create().show();
     }
 
-    @Override
-    public void onBackPressed(){
-        View verseText = findViewById(R.id.verse_text);
-        if (verseText.getVisibility() == View.VISIBLE)
-            verseText.setVisibility(View.GONE);
-        else
-            super.onBackPressed();
-    }
-
 //    private class AddVerseTask extends AsyncTask<Integer, Void, List<Verse>>{
 //        @Override
 //        public List<Verse> doInBackground(Integer... ids){
