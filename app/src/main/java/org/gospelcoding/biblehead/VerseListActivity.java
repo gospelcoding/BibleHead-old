@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -146,9 +145,9 @@ public class VerseListActivity extends AppCompatActivity
     }
 
     private void launchAddVerseActivity(){
-//        Intent intent = new Intent(this, AddVerseActivity.class);
+//        Intent intent = new Intent(this, ManualAddVerseActivity.class);
 //        startActivityForResult(intent, ADD_VERSE_CODE);
-        Intent intent = new Intent(this, AddVerseActivity.class);
+        Intent intent = new Intent(this, ManualAddVerseActivity.class);
         startActivity(intent);
     }
 
@@ -223,9 +222,9 @@ public class VerseListActivity extends AppCompatActivity
     }
 
     private void editVerse(int verseId) {
-        Intent intent = new Intent(this, AddVerseActivity.class);
-        intent.putExtra(AddVerseActivity.EDIT_MODE, true);
-        intent.putExtra(AddVerseActivity.VERSE_ID, verseId);
+        Intent intent = new Intent(this, ManualAddVerseActivity.class);
+        intent.putExtra(ManualAddVerseActivity.EDIT_MODE, true);
+        intent.putExtra(ManualAddVerseActivity.VERSE_ID, verseId);
         startActivityForResult(intent, EDIT_VERSE_CODE);
     }
 

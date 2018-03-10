@@ -4,17 +4,15 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class BibleVersionContainer {
 
-    private TreeSet<Language> languages;
-    private TreeSet<BibleVersion> bibleVersions;
+    private ArrayList<Language> languages;
+    private ArrayList<BibleVersion> bibleVersions;
 
     public BibleVersionContainer(){
-        languages = new TreeSet<>();
-        bibleVersions = new TreeSet<>();
+        languages = new ArrayList<>(300);
+        bibleVersions = new ArrayList<>(350);
     }
 
     public void add(BibleVersion bibleVersion) {
@@ -24,13 +22,18 @@ public class BibleVersionContainer {
     }
 
     public List<Language> getLanguages() {
-        return new ArrayList<>(languages);
+        return languages;
     }
 
     public List<BibleVersion> getBibleVersions(Language lang) {
-        BibleVersion min = new BibleVersion(null, lang.getCode(), null);
-        BibleVersion max = new BibleVersion(null, lang.getCode() + "a", null);
-        SortedSet<BibleVersion> matchingVersions = bibleVersions.subSet(min, max);
-        return new ArrayList<>(matchingVersions);
+        int first = 0;
+        while (!lang.equals(bibleVersions.get(first).getLang()))
+            ++first;
+        int last = first + 1;
+        while (last < bibleVersions.size() &&
+                lang.equals(bibleVersions.get(last).getLang()))
+            ++last;
+
+        return bibleVersions.subList(first, last);
     }
 }

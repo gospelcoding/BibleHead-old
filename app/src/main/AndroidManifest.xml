@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddVerseActivity"
+            android:name=".ManualAddVerseActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
