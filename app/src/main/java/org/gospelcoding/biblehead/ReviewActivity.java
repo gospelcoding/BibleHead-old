@@ -31,6 +31,7 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        setButtonListeners();
         verseTextView = (TextView) findViewById(R.id.verse_text);
         ArrayList<Integer> verseIds = null;
         if (savedInstanceState != null){
@@ -39,6 +40,15 @@ public class ReviewActivity extends AppCompatActivity {
         }
 
         new ReviewVerseLoader(verseIds).execute();
+    }
+
+    private void setButtonListeners() {
+        findViewById(R.id.review_success).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickReviewSuccess(view);
+            }
+        });
     }
 
     private class ReviewVerseLoader extends AsyncTask<Void, Void, List<Verse>>{

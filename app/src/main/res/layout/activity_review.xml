@@ -98,26 +98,27 @@
     <Button
         android:id="@+id/review_failure"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/review_success"
         android:theme="@style/AppTheme.RedMainButton"
         android:visibility="invisible"
         android:text="X"
+        android:textStyle="normal"
         android:onClick="clickReviewFailure"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/review_success"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/review_failure"
         app:layout_constraintEnd_toEndOf="parent"
         android:theme="@style/AppTheme.GreenMainButton"
         android:visibility="invisible"
-        android:text="✔︎"
-        android:onClick="clickReviewSuccess"/>
+        app:srcCompat="@drawable/ic_check_white"
+        android:scaleType="fitCenter"/>
 
 
 </android.support.constraint.ConstraintLayout>

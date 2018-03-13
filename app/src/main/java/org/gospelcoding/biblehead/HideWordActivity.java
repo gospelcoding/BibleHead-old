@@ -130,6 +130,12 @@ public class HideWordActivity extends LearnActivity {
                 finish();
             }
         });
+        findViewById(R.id.big_mark_learned).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickMarkLearned(view);
+            }
+        });
     }
 
 
