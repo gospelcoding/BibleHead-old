@@ -9,7 +9,7 @@
 
     <Preference
         android:title="@string/versions_title"
-        android:summary="@string/no_versions">
+        android:summary="@string/no_versions_selected">
 
         <intent
             android:targetPackage="org.gospelcoding.biblehead"

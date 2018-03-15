@@ -83,7 +83,7 @@ public class AddVersionFragment extends AppCompatDialogFragment
             ((Spinner) dialog.findViewById(R.id.version_spinner)).setOnItemSelectedListener(this);
         }
         catch (JSONException e){
-            Toast.makeText(getContext(), R.string.download_failure, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.version_download_failure, Toast.LENGTH_SHORT).show();
             Log.e("BH DBL", "You dirty rascal: " + e.getMessage());
         }
 

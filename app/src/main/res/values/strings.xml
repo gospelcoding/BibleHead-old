@@ -40,13 +40,18 @@
     <string name="enable_notifications">Enable Notifications</string>
     <string name="notification_pref_summary">Daily reminder to review verses</string>
     <string name="versions_title">Bible Versions</string>
-    <string name="no_versions">No versions selected</string>
+    <string name="no_versions_available">No versions available</string>
+    <string name="no_versions_selected">No versions selected</string>
 
     <!-- AddVersions -->
     <string name="add_version">Add Version</string>
     <string name="language">Language</string>
     <string name="version">Version</string>
-    <string name="download_failure">Failed to download Bible versions from bibles.org.</string>
+    <string name="versions">Versions</string>
+    <string name="bible_version">Bible Version</string>
+    <string name="bible_versions">Bible Versions</string>
+    <string name="version_download_failure">Unable to download Bible versions from bibles.org. Are you connected to the internet?</string>
+    <string name="text_download_failure">Unable to download Bible text from bibles.org. Are you connected to the internet?</string>
     <string name="copyright">Copyright</string>
     <string name="go_back">Go back</string>
 
