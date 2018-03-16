@@ -4,36 +4,75 @@
     <string name="notification_title">Daily Review</string>
     <string name="notification_text">Review your memory verses</string>
 
-    <!-- Verse List Activity -->
+
+
+    <!-- Learn could also be 'Memorize' -->
     <string name="learn">Learn</string>
     <string name="edit">Edit</string>
     <string name="review">Review</string>
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
     <string name="verse_added">%1$s added</string>
     <string name="mark_not_learned">Mark Not Learned</string>
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
     <string name="verse_updated">%1$s updated</string>
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
     <string name="verse_deleted">%1$s deleted</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
     <string name="confirm_delete">Are you sure you want to remove %1$s from your verses?</string>
     <string name="ok">OK</string>
 
-    <!-- Add Verse Activity -->
+
+
     <string name="add_verse">Add Verse</string>
+    <!-- This is the label for a checkbox that enable the user to enter a reference for a passage rather than
+         a single verse. e.g. "John 1:1-18" -->
     <string name="multiverse">Longer than 1 verse</string>
     <string name="save_verse">Save Verse</string>
+    <!-- Error message -->
     <string name="verse_text_not_blank">Verse text can\'t be blank.</string>
+    <!-- Error message -->
     <string name="end_verse_after_start_verse">End verse must come after start verse.</string>
+    <!-- Error message -->
     <string name="valid_chapter_numbers">Chapter numbers must be between 1 and 150.</string>
+    <!-- Error message -->
     <string name="valid_verse_numbers">Verse numbers must be between 1 and 200.</string>
     <string name="verse_text_hint">Paste the text of the verse here.</string>
 
-    <!-- Learn Activity -->
+
+
     <string name="mark_learned">Learned</string>
 
-    <!-- Review Activity -->
+
+    <!-- Tells the user which verse he's on for the review e.g. "3 of 5" -->
     <string name="x_of_y">%1$d of %2$d</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
+    <!-- Error message -->
     <string name="no_learned_verses">No verses are marked as learned. Try the review again once some verses are learned.</string>
+
+
+
+    <string name="settings">Settings</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="notification_pref_summary">Daily reminder to review verses</string>
+    <string name="versions_title">Bible Versions</string>
+    <string name="no_versions_available">No versions available</string>
+    <string name="no_versions_selected">No versions selected</string>
+
+
+
+    <!-- That is, add a version of the Bible to the versions used for downloading verse texts -->
+    <string name="add_version">Add Version</string>
+    <string name="language">Language</string>
+    <string name="version">Version</string>
+    <string name="versions">Versions</string>
+    <string name="bible_version">Bible Version</string>
+    <string name="bible_versions">Bible Versions</string>
+    <string name="version_download_failure">Unable to download Bible versions from bibles.org. Are you connected to the internet?</string>
+    <string name="text_download_failure">Unable to download Bible text from bibles.org. Are you connected to the internet?</string>
+    <string name="copyright">Copyright</string>
+    <string name="go_back">Go back</string>
 
     <string-array name="bible_books">
         <item>Genesis</item>
