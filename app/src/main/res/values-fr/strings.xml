@@ -1,37 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bible Head</string>
-    <string name="notification_title">Revue Quotidienne</string>
-    <string name="notification_text">Revoir vos versets mémorisés</string>
-    <string name="learn">Mémoriser</string>
-    <string name="channel_description">Rappel de revoir les versets mémorisés</string>
-    <string name="edit">Modifier</string>
-    <string name="review">Revoir</string>
-    <string name="verse_added">%1$s ajouté</string>
-    <string name="mark_not_learned">Marquer «Pas mémorisé»</string>
-    <string name="verse_updated">%1$s mis à jour</string>
-    <string name="verse_deleted">%1$s supprimé</string>
-    <string name="delete">Supprimer</string>
-    <string name="cancel">Annuler</string>
-    <string name="confirm_delete">Confirmez que vous voulez enlever %1$s de vos versets.</string>
+    <string name="app_name">"Bible Head"</string>
+    <string name="channel_description">"Rappel de revoir les versets mémorisés"</string>
+    <string name="notification_title">"Revue Quotidienne"</string>
+    <string name="notification_text">"Revoir vos versets mémorisés"</string>
 
-    <!-- Add Verse Activity -->
-    <string name="add_verse">Ajouter un verset</string>
-    <string name="multiverse">Plus long qu\'un verset</string>
-    <string name="save_verse">Enregistrer</string>
-    <string name="verse_text_not_blank">Texte du verset ne peut pas être vide.</string>
-    <string name="end_verse_after_start_verse">La fin du passage doit être après le commencement.</string>
-    <string name="valid_chapter_numbers">Les numéros des chapitres doivent être entre 1 et 150.</string>
-    <string name="valid_verse_numbers">Les numéros des versets doivent être entre 1 et 200.</string>
-    <string name="verse_text_hint">Coller le texte du verset ici.</string>
+    <!-- Learn could also be 'Memorize' -->
+    <string name="learn">"Mémoriser"</string>
+    <string name="edit">"Modifier"</string>
+    <string name="review">"Revoir"</string>
 
-    <!-- Learn Activity -->
-    <string name="mark_learned">✔︎ Mémorisé</string>
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
+    <string name="verse_added">"%1$s ajouté"</string>
+    <string name="mark_not_learned">"Marquer «Pas mémorisé»"</string>
+    
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
+    <string name="verse_updated">"%1$s mis à jour"</string>
 
-    <!-- Review Activity -->
-    <string name="x_of_y">%1$d de %2$d</string>
-    <string name="loading">Chargement...</string>
-    <string name="no_learned_verses">Aucun verset est marqué comme mémorisé. Après avoir marqué quelques versets comme mémorisé vous pouvez les revoir.</string>
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
+    <string name="verse_deleted">"%1$s supprimé"</string>
+    <string name="delete">"Supprimer"</string>
+    <string name="cancel">"Annuler"</string>
+
+    <!-- %1$s is the verse reference e.g. John 1:1 -->
+    <string name="confirm_delete">"Confirmez que vous voulez enlever %1$s de vos versets."</string>
+    <string name="ok">"D'accord"</string>
+    <string name="add_verse">"Ajouter un verset"</string>
+
+    <!-- This is the label for a checkbox that enable the user to enter a reference for a passage rather than
+             a single verse. e.g. "John 1:1-18" -->
+    <string name="multiverse">"Plus long qu'un verset"</string>
+    <string name="save_verse">"Enregistrer"</string>
+
+    <!-- Error message -->
+    <string name="verse_text_not_blank">"Texte du verset ne peut pas être vide."</string>
+
+    <!-- Error message -->
+    <string name="end_verse_after_start_verse">"La fin du passage doit être après le commencement."</string>
+
+    <!-- Error message -->
+    <string name="valid_chapter_numbers">"Les numéros des chapitres doivent être entre 1 et 150."</string>
+
+    <!-- Error message -->
+    <string name="valid_verse_numbers">"Les numéros des versets doivent être entre 1 et 200."</string>
+    <string name="verse_text_hint">"Coller le texte du verset ici."</string>
+    <string name="mark_learned">"✔︎ Mémorisé"</string>
+
+    <!-- Tells the user which verse he's on for the review e.g. "3 of 5" -->
+    <string name="x_of_y">"%1$d de %2$d"</string>
+    <string name="loading">"Chargement..."</string>
+
+    <!-- Error message -->
+    <string name="no_learned_verses">"Aucun verset est marqué comme mémorisé. Après avoir marqué quelques versets comme mémorisé vous pouvez les revoir."</string>
+    <string name="settings">"Paramètres"</string>
+    <string name="enable_notifications">"Activer les notifications"</string>
+    <string name="notification_pref_summary">"Rappel quotidien à revoir les versets"</string>
+    <string name="versions_title">"Versions de la Bible"</string>
+    <string name="no_versions_available">"Aucune version disponible"</string>
+    <string name="no_versions_selected">"Aucune version sélectionée"</string>
+
+    <!-- That is, add a version of the Bible to the versions used for downloading verse texts -->
+    <string name="add_version">"Ajouter une version"</string>
+    <string name="language">"Langue"</string>
+    <string name="version">"Version"</string>
+    <string name="versions">"Versions"</string>
+    <string name="bible_version">"Version de la Bible"</string>
+    <string name="bible_versions">"Versions de la Bible"</string>
+    <string name="version_download_failure">"Échec de téléchargement de versions de bibles.org. L'appareil a-t-il une connexion internet ?"</string>
+    <string name="text_download_failure">"Échec de téléchargement de textes bibliques de bible.org. L'appareil, a-t-il une connexion internet ?"</string>
+    <string name="copyright">"Droit d'auteur"</string>
+    <string name="go_back">"Retourner"</string>
 
     <string-array name="bible_books">
         <item>Genèse</item>
@@ -101,5 +139,4 @@
         <item>Jude</item>
         <item>Apocalypse</item>
     </string-array>
-    <string name="ok">D\'accord</string>
 </resources>
